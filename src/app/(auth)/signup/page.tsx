@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 
 const page = () => {
   return (
-    <section className="flex min-h-screen items-center justify-center px-4 py-20">
+    <section className="flex min-h-screen items-center justify-center px-4 py-20 sm:px-6">
       <Card className="w-full max-w-xl">
         <CardHeader className="text-center">
           <CardTitle>Create your account</CardTitle>

@@ -54,3 +54,26 @@ export const signInSchema = z.object({
   password: passwordSchema,
   rememberMe: z.boolean(),
 });
+
+// Username + email schema
+export const usernameEmailSchema = z.object({
+  username: userNameSchema,
+  email: emailSchema,
+});
+
+// Change password schema
+export const changePasswordSchema = z
+  .object({
+    currentPassword: passwordSchema,
+    newPassword: passwordSchema,
+    confirmNewPassword: passwordSchema,
+  })
+  .refine((data) => data.newPassword === data.confirmNewPassword, {
+    error: "Password didn't match",
+    path: ["confirmNewPassword"],
+  });
+
+// Delete account Schema
+export const deleteAccountSchema = z.object({
+  password: passwordSchema,
+});

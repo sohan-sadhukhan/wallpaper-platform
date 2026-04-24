@@ -6,7 +6,7 @@ import { isAPIError } from "better-auth/api";
 import { headers } from "next/headers";
 
 // Better Auth error code
-const BETTER_AUTH_ERROR_MESSAGES: {
+const BETTER_AUTH_SIGNIN_ERROR_MESSAGES: {
   [key: string]: string;
 } = {
   email_not_found: "No account found with this email.",
@@ -34,8 +34,11 @@ const userSignIn = async ({ email, password, rememberMe }: SignIn) => {
     if (isAPIError(error)) {
       const code = error.body?.code?.toLowerCase();
 
-      if (code && BETTER_AUTH_ERROR_MESSAGES[code]) {
-        return { isSuccess: false, message: BETTER_AUTH_ERROR_MESSAGES[code] };
+      if (code && BETTER_AUTH_SIGNIN_ERROR_MESSAGES[code]) {
+        return {
+          isSuccess: false,
+          message: BETTER_AUTH_SIGNIN_ERROR_MESSAGES[code],
+        };
       }
     }
 
