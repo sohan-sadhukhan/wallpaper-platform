@@ -4,7 +4,7 @@ import ThemeToggleButton from "../Buttons/ThemeToggleButton";
 const Header = () => {
   return (
     <header
-      className="fixed top-0 right-0 left-0 z-50 border-b shadow"
+      className="fixed top-0 right-0 left-0 z-50 border-b shadow backdrop-blur-2xl"
       aria-label="app-header">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
         <Link href={"/"}>
