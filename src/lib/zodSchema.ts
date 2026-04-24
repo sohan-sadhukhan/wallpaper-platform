@@ -77,3 +77,13 @@ export const changePasswordSchema = z
 export const deleteAccountSchema = z.object({
   password: passwordSchema,
 });
+
+// Name Schema
+export const profileNameSchema = z.object({
+  name: nameSchema,
+});
+
+// Bio Schema
+export const profileBioSchema = z.object({
+  bio: z.string().max(160, "Bio must be 160 characters or fewer").optional(),
+});

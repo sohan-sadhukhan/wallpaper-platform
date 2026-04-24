@@ -2,6 +2,8 @@ import z from "zod";
 import {
   changePasswordSchema,
   deleteAccountSchema,
+  profileBioSchema,
+  profileNameSchema,
   signInSchema,
   signUpSchema,
   usernameEmailSchema,
@@ -21,3 +23,9 @@ export type ChangePasswordType = z.infer<typeof changePasswordSchema>;
 
 // Delete account type
 export type DeleteAccountType = z.infer<typeof deleteAccountSchema>;
+
+// Name Type
+export type ProfileNameType = z.infer<typeof profileNameSchema>;
+
+// Bio Type
+export type ProfileBioType = z.infer<typeof profileBioSchema>;

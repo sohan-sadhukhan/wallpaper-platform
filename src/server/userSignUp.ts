@@ -1,6 +1,7 @@
 "use server";
 
 import { auth } from "@/lib/auth";
+import prisma from "@/lib/database/dbClient";
 import { SignUp } from "@/lib/types";
 import { isAPIError } from "better-auth/api";
 import { headers } from "next/headers";
@@ -20,15 +21,32 @@ const BETTER_AUTH_SIGNUP_ERROR_MESSAGES: {
 
 const userSignUp = async ({ name, username, email, password }: SignUp) => {
   try {
-    await auth.api.signUpEmail({
+    const data = await auth.api.signUpEmail({
       body: {
         name,
         username,
         displayUsername: username,
         email,
         password,
+        image: "avatar.png",
       },
       headers: await headers(),
+    });
+
+    await prisma.user.update({
+      where: { id: data.user.id },
+      data: {
+        bio: "Hey there! I'm new here and excited to explore amazing wallpapers.",
+        interests: {
+          create: [
+            { name: "Nature" },
+            { name: "Minimal" },
+            { name: "Abstract" },
+            { name: "Dark Mode" },
+          ],
+        },
+        coverImage: "cover.jpg",
+      },
     });
 
     return {
