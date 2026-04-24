@@ -2,10 +2,12 @@
 
 import { SignUp } from "@/lib/types";
 import { signUpSchema } from "@/lib/zodSchema";
+import userSignUp from "@/server/userSignUp";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2Icon, LockIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { Button } from "../shadcnui/button";
 import { Field, FieldError, FieldLabel } from "../shadcnui/field";
 import { Input } from "../shadcnui/input";
@@ -33,7 +35,19 @@ const SignUpForm = () => {
 
   //  Handles form submission
   const signUpHandeler = async (rData: SignUp) => {
-    console.log(rData);
+    const { isSuccess, message } = await userSignUp(rData);
+
+    if (!isSuccess) {
+      toast.error(message);
+    }
+
+    if (isSuccess) {
+      toast.success(message);
+
+      reset();
+
+      replace("/signin");
+    }
   };
   return (
     <form

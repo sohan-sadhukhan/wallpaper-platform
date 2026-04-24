@@ -2,10 +2,12 @@
 
 import { SignIn } from "@/lib/types";
 import { signInSchema } from "@/lib/zodSchema";
+import userSignIn from "@/server/userSignIn";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2Icon, LockIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { Button } from "../shadcnui/button";
 import { Checkbox } from "../shadcnui/checkbox";
 import { Field, FieldError, FieldLabel } from "../shadcnui/field";
@@ -32,7 +34,17 @@ const SignInForm = () => {
 
   //  Handles form submission
   const signInHandeler = async (lData: SignIn) => {
-    console.log(lData);
+    const { isSuccess, message } = await userSignIn(lData);
+
+    if (!isSuccess) {
+      toast.error(message);
+    }
+
+    if (isSuccess) {
+      toast.success(message);
+      push("/");
+      reset();
+    }
   };
 
   return (
