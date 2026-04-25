@@ -37,7 +37,7 @@ const ProfileSection = ({
   return (
     <section
       aria-label="Profile content"
-      className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_280px]">
+      className="grid gap-6 py-10 lg:grid-cols-[minmax(0,1fr)_280px]">
       <article>
         <Card className="overflow-hidden p-0">
           <div className="relative h-36 w-full sm:h-44">

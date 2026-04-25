@@ -1,4 +1,5 @@
 import ProfileSection from "@/components/ProfileSection";
+import WallpaperHome from "@/components/WallpaperHome";
 import prisma from "@/lib/database/dbClient";
 import authUserServer from "@/server/authUserServer";
 import { Metadata } from "next";
@@ -27,6 +28,19 @@ const page = async () => {
     },
   });
 
+  const wallpapers = await prisma.wallpaper.findMany({
+    where: { userId: session.user.id },
+    include: {
+      user: {
+        select: {
+          name: true,
+          id: true,
+          image: true,
+        },
+      },
+    },
+  });
+
   if (!userInfo) {
     redirect("/signin");
   }
@@ -45,6 +59,8 @@ const page = async () => {
         cover={userInfo.coverImage ?? "cover.jpg"}
         interests={interestNames}
       />
+
+      <WallpaperHome wallpapers={wallpapers} />
     </section>
   );
 };

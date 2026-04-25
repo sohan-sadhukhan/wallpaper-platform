@@ -1,3 +1,5 @@
+import WallpaperHome from "@/components/WallpaperHome";
+import prisma from "@/lib/database/dbClient";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -5,8 +7,23 @@ export const metadata: Metadata = {
   description: "Browse, upload, and discover stunning wallpapers.",
 };
 
-const page = () => {
-  return <section className="grid h-dvh place-items-center">Home</section>;
+const page = async () => {
+  const wallpapers = await prisma.wallpaper.findMany({
+    include: {
+      user: {
+        select: {
+          name: true,
+          id: true,
+          image: true,
+        },
+      },
+    },
+  });
+  return (
+    <section className="mx-auto w-full px-4 py-20 sm:px-6">
+      <WallpaperHome wallpapers={wallpapers} />
+    </section>
+  );
 };
 
 export default page;

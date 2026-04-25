@@ -14,6 +14,23 @@ CREATE TABLE "user" (
 );
 
 -- CreateTable
+CREATE TABLE "category" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "name" TEXT NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "wallpaper" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "imageUrl" TEXT NOT NULL,
+    "orientation" TEXT NOT NULL,
+    "categoryId" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "wallpaper_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+-- CreateTable
 CREATE TABLE "session" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "expiresAt" DATETIME NOT NULL,
@@ -67,6 +84,12 @@ CREATE UNIQUE INDEX "user_email_key" ON "user"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "user_username_key" ON "user"("username");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "category_name_key" ON "category"("name");
+
+-- CreateIndex
+CREATE INDEX "wallpaper_userId_idx" ON "wallpaper"("userId");
 
 -- CreateIndex
 CREATE INDEX "session_userId_idx" ON "session"("userId");

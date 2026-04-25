@@ -12,16 +12,17 @@ datasource db {
 }
 
 model User {
-  id            String    @id
+  id            String      @id
   name          String
   email         String
-  emailVerified Boolean   @default(false)
+  emailVerified Boolean     @default(false)
   image         String?
   coverImage    String?
   bio           String?
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
   interests     Interests[]
+  wallpapers    Wallpaper[]
   sessions      Session[]
   accounts      Account[]
 
@@ -31,6 +32,18 @@ model User {
   @@unique([email])
   @@unique([username])
   @@map("user")
+}
+
+model Wallpaper {
+  id          String   @id @default(uuid())
+  imageUrl    String
+  orientation String
+  userId      String
+  createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@map("wallpaper")
 }
 
 model Session {

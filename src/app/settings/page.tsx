@@ -21,7 +21,7 @@ const page = async () => {
   const session = await authUserServer();
 
   return (
-    <section className="mx-auto w-full max-w-4xl px-4 py-20 sm:px-6">
+    <section className="mx-auto w-full px-4 py-20 sm:px-6">
       <section
         aria-labelledby="settings-heading"
         className="space-y-6">
