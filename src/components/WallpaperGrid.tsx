@@ -7,6 +7,9 @@ type WallpaperGridProps = {
     imageUrl: string;
     orientation: string;
     userId: string;
+    favorites: {
+      id: string;
+    }[];
     user: {
       name: string;
       id: string;
@@ -33,7 +36,10 @@ export const WallpaperGrid = ({ wallpapers }: WallpaperGridProps) => {
         <div
           key={w.id}
           className="break-inside-avoid">
-          <WallpaperCard wallpapers={w} />
+          <WallpaperCard
+            wallpapers={w}
+            isFavorited={w.favorites.length > 0}
+          />
         </div>
       ))}
     </div>

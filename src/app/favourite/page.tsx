@@ -1,14 +1,13 @@
 import PaginationQuery from "@/components/PaginationQuery";
-import ProfileSection from "@/components/ProfileSection";
 import WallpaperHome from "@/components/WallpaperHome";
+import { auth } from "@/lib/auth";
 import prisma from "@/lib/database/dbClient";
-import authUserServer from "@/server/authUserServer";
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 
 export const metadata: Metadata = {
-  title: "Profile | Wallpaper App",
-  description: "View and manage your public profile in Wallpaper App.",
+  title: "Favourite | Wallpaper App",
+  description: "View and manage your favourite wallpapers.",
 };
 
 type PageProps = {
@@ -20,31 +19,23 @@ type PageProps = {
 const PAGE_SIZE = 6;
 
 const page = async ({ searchParams }: PageProps) => {
-  const session = await authUserServer();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
   const { page } = await searchParams;
   const pageNumber = Math.max(1, Math.floor(Number(page) || 1));
 
-  const [userInfo, wallpapers, pageCount] = await Promise.all([
-    prisma.user.findUnique({
-      where: { id: session.user.id },
-      select: {
-        bio: true,
-        interests: {
-          select: { name: true },
-        },
-        name: true,
-        username: true,
-        email: true,
-        image: true,
-        coverImage: true,
-      },
-    }),
-
+  const [wallpapers, pageCount] = await Promise.all([
     prisma.wallpaper.findMany({
       where: {
-        userId: session.user.id,
+        favorites: {
+          some: {
+            userId: session?.user.id,
+          },
+        },
       },
+
       include: {
         user: {
           select: {
@@ -53,6 +44,7 @@ const page = async ({ searchParams }: PageProps) => {
             image: true,
           },
         },
+
         favorites: {
           where: {
             userId: session?.user.id,
@@ -63,40 +55,30 @@ const page = async ({ searchParams }: PageProps) => {
         },
       },
 
-      orderBy: { createdAt: "desc" },
+      orderBy: {
+        createdAt: "desc",
+      },
+
       take: PAGE_SIZE,
       skip: (pageNumber - 1) * PAGE_SIZE,
     }),
 
     prisma.wallpaper.count({
       where: {
-        userId: session.user.id,
+        favorites: {
+          some: {
+            userId: session?.user.id,
+          },
+        },
       },
     }),
   ]);
 
   const totalPage = Math.ceil(pageCount / PAGE_SIZE);
 
-  if (!userInfo) {
-    redirect("/signin");
-  }
-
-  const interestNames =
-    userInfo?.interests.map((interest) => interest.name) ?? [];
-
   return (
     <>
       <section className="mx-auto w-full px-4 py-20 sm:px-6">
-        <ProfileSection
-          name={userInfo.name}
-          username={userInfo.username}
-          email={userInfo.email}
-          bio={userInfo.bio ?? ""}
-          avatar={userInfo.image ?? "avatar.png"}
-          cover={userInfo.coverImage ?? "cover.jpg"}
-          interests={interestNames}
-        />
-
         <WallpaperHome wallpapers={wallpapers} />
       </section>
 

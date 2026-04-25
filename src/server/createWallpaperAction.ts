@@ -5,8 +5,8 @@ import { nanoid } from "nanoid";
 import sharp from "sharp";
 import authUserServer from "./authUserServer";
 
-const PORTRAIT_CONFIG = { width: 540, height: 1280 } as const;
-const LANDSCAPE_CONFIG = { width: 960, height: 540 } as const;
+const PORTRAIT_CONFIG = { width: 720, height: 1280 } as const;
+const LANDSCAPE_CONFIG = { width: 1280, height: 720 } as const;
 
 type createWallpaperActionProp = {
   file: File;

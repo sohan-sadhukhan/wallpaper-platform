@@ -25,6 +25,7 @@ model User {
   wallpapers    Wallpaper[]
   sessions      Session[]
   accounts      Account[]
+  favorites     Favorite[]
 
   username        String
   displayUsername String?
@@ -35,12 +36,13 @@ model User {
 }
 
 model Wallpaper {
-  id          String   @id @default(uuid())
+  id          String     @id @default(uuid())
   imageUrl    String
   orientation String
   userId      String
-  createdAt   DateTime @default(now())
-  user        User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime   @default(now())
+  user        User       @relation(fields: [userId], references: [id])
+  favorites   Favorite[]
 
   @@index([userId])
   @@map("wallpaper")
@@ -101,4 +103,18 @@ model Interests {
   userId String?
 
   @@map("interests")
+}
+
+model Favorite {
+  id          String    @id @default(uuid())
+  userId      String
+  wallpaperId String
+  createdAt   DateTime  @default(now())
+  user        User      @relation(fields: [userId], references: [id])
+  wallpaper   Wallpaper @relation(fields: [wallpaperId], references: [id])
+
+  @@unique([userId, wallpaperId])
+  @@index([userId])
+  @@index([wallpaperId])
+  @@map("favorite")
 }

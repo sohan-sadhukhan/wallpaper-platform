@@ -1,6 +1,7 @@
-import { Download, Heart } from "lucide-react";
+import { Download } from "lucide-react";
 import Image from "next/image";
 import DeleteWallpaper from "./DeleteWallpaper";
+import FavouriteButton from "./FavouriteButton";
 import { Button } from "./shadcnui/button";
 
 interface WallpaperCardProps {
@@ -17,7 +18,10 @@ interface WallpaperCardProps {
   };
 }
 
-export const WallpaperCard = ({ wallpapers }: WallpaperCardProps) => {
+export const WallpaperCard = ({
+  wallpapers,
+  isFavorited,
+}: WallpaperCardProps & { isFavorited: boolean }) => {
   const handleLike = () => {};
 
   return (
@@ -31,12 +35,11 @@ export const WallpaperCard = ({ wallpapers }: WallpaperCardProps) => {
       />
 
       {/* Heart button */}
-      <Button
-        size={"icon-lg"}
-        aria-label="Favourite"
-        className="absolute top-2 right-2 rounded-full">
-        <Heart size={12} />
-      </Button>
+      <FavouriteButton
+        id={wallpapers.id}
+        userId={wallpapers.userId}
+        isFavorited={isFavorited}
+      />
 
       {/* Delete button */}
       <DeleteWallpaper
