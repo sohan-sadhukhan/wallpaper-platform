@@ -1,0 +1,120 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+  runtime  = "nodejs"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id            String      @id
+  name          String
+  email         String
+  emailVerified Boolean     @default(false)
+  image         String?
+  coverImage    String?
+  bio           String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  interests     Interests[]
+  wallpapers    Wallpaper[]
+  sessions      Session[]
+  accounts      Account[]
+  favorites     Favorite[]
+
+  username        String
+  displayUsername String?
+
+  @@unique([email])
+  @@unique([username])
+  @@map("user")
+}
+
+model Wallpaper {
+  id          String     @id @default(uuid())
+  imageUrl    String
+  orientation String
+  userId      String
+  createdAt   DateTime   @default(now())
+  user        User       @relation(fields: [userId], references: [id])
+  favorites   Favorite[]
+
+  @@index([userId])
+  @@map("wallpaper")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
+}
+
+model Interests {
+  id     String  @id @default(uuid())
+  name   String
+  user   User?   @relation(fields: [userId], references: [id])
+  userId String?
+
+  @@map("interests")
+}
+
+model Favorite {
+  id          String    @id @default(uuid())
+  userId      String
+  wallpaperId String
+  createdAt   DateTime  @default(now())
+  user        User      @relation(fields: [userId], references: [id])
+  wallpaper   Wallpaper @relation(fields: [wallpaperId], references: [id])
+
+  @@unique([userId, wallpaperId])
+  @@index([userId])
+  @@index([wallpaperId])
+  @@map("favorite")
+}
