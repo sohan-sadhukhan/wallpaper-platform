@@ -4,7 +4,7 @@ import DeleteWallpaper from "./DeleteWallpaper";
 import FavouriteButton from "./FavouriteButton";
 import { Button } from "./shadcnui/button";
 
-interface WallpaperCardProps {
+type WallpaperCardProps = {
   wallpapers: {
     id: string;
     imageUrl: string;
@@ -12,11 +12,10 @@ interface WallpaperCardProps {
     userId: string;
     user: {
       name: string;
-      id: string;
       image: string | null;
     };
   };
-}
+};
 
 export const WallpaperCard = ({
   wallpapers,
@@ -35,7 +34,6 @@ export const WallpaperCard = ({
       {/* Heart button */}
       <FavouriteButton
         id={wallpapers.id}
-        userId={wallpapers.userId}
         isFavorited={isFavorited}
       />
 

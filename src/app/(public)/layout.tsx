@@ -10,7 +10,7 @@ const PublicLayout = ({ children }: PublicLayoutProps) => {
   return (
     <>
       <Header />
-      <main className="mx-auto max-w-7xl">{children}</main>;
+      <main className="mx-auto max-w-7xl">{children}</main>
     </>
   );
 };
