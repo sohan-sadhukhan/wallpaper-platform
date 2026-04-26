@@ -12,7 +12,7 @@ import { Field, FieldError, FieldLabel } from "../shadcnui/field";
 import { Textarea } from "../shadcnui/textarea";
 
 type BioFormProps = {
-  currentBio: string;
+  currentBio: string | null;
 };
 
 const BioForm = ({ currentBio }: BioFormProps) => {
@@ -23,7 +23,7 @@ const BioForm = ({ currentBio }: BioFormProps) => {
   } = useForm<ProfileBioType>({
     resolver: zodResolver(profileBioSchema),
     defaultValues: {
-      bio: currentBio,
+      bio: currentBio ?? "",
     },
     mode: "all",
   });

@@ -19,9 +19,9 @@ import UsernameField from "./UsernameField";
 type EditProfileDialogProps = {
   name: string;
   username: string;
-  bio: string;
-  avatarUrl: string;
-  coverUrl: string;
+  bio: string | null;
+  avatarUrl: string | null;
+  coverUrl: string | null;
 };
 
 const EditProfileDialog = ({

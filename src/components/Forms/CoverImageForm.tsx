@@ -1,5 +1,6 @@
 "use client";
 
+import { clientEnv } from "@/lib/env/clientEnv";
 import updateCoverImage from "@/server/updateCoverImage";
 import Image from "next/image";
 import { useState } from "react";
@@ -9,7 +10,7 @@ import { FileSizeValidator } from "use-file-picker/validators";
 import { Button } from "../shadcnui/button";
 
 type CoverImageFormProps = {
-  currentCover: string;
+  currentCover: string | null;
 };
 
 const CoverImageForm = ({ currentCover }: CoverImageFormProps) => {
@@ -23,7 +24,6 @@ const CoverImageForm = ({ currentCover }: CoverImageFormProps) => {
       validators: [new FileSizeValidator({ maxFileSize: 5 * 1024 * 1024 })],
     });
 
-  const coverSrc = filesContent[0]?.content ?? `/${currentCover}`;
   const isDirty = filesContent[0]?.content;
 
   const coverImageHandler = async () => {
@@ -49,7 +49,7 @@ const CoverImageForm = ({ currentCover }: CoverImageFormProps) => {
         <Image
           height={300}
           width={700}
-          src={`${coverSrc}`}
+          src={`${filesContent[0]?.content ? filesContent[0]?.content : `${currentCover ? `${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${currentCover}` : `/cover.jpg`}`}`}
           alt="Cover picture"
           className="h-36 w-full rounded-xl object-cover"
         />

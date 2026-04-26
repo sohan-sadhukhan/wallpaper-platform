@@ -81,8 +81,8 @@ const page = async ({ searchParams }: PageProps) => {
     redirect("/signin");
   }
 
-  const interestNames =
-    userInfo?.interests.map((interest) => interest.name) ?? [];
+  // const interestNames =
+  //   userInfo?.interests.map((interest) => interest.name) ?? [];
 
   return (
     <>
@@ -91,10 +91,10 @@ const page = async ({ searchParams }: PageProps) => {
           name={userInfo.name}
           username={userInfo.username}
           email={userInfo.email}
-          bio={userInfo.bio ?? ""}
-          avatar={userInfo.image ?? "avatar.png"}
-          cover={userInfo.coverImage ?? "cover.jpg"}
-          interests={interestNames}
+          bio={userInfo.bio ?? null}
+          avatar={userInfo.image ?? null}
+          cover={userInfo.coverImage ?? null}
+          // interests={interestNames}
         />
 
         <WallpaperHome wallpapers={wallpapers} />
