@@ -1,4 +1,5 @@
 import Header from "@/components/Header/Header";
+import authUserServer from "@/server/authUserServer";
 import { ReactNode } from "react";
 import "../globals.css";
 
@@ -6,7 +7,8 @@ type ProtectedLayoutProps = Readonly<{
   children: ReactNode;
 }>;
 
-const ProtectedLayout = ({ children }: ProtectedLayoutProps) => {
+const ProtectedLayout = async ({ children }: ProtectedLayoutProps) => {
+  await authUserServer();
   return (
     <>
       <Header />

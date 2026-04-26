@@ -1,7 +1,7 @@
 import z from "zod";
 
 const serverEnvSchema = z.object({
-  DATABASE_URL: z.string({ error: "DATABASE_URL Not Found" }),
+  DATABASE_URL: z.string().min(1, { error: "DATABASE_URL Not Found" }),
   BETTER_AUTH_SECRET: z.string({
     error: "BETTER_AUTH_SECRET Key Not Found",
   }),

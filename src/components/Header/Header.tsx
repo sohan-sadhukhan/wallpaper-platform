@@ -2,6 +2,7 @@ import { auth } from "@/lib/auth";
 import { AUTH_LINKS } from "@/lib/nav";
 import { cn } from "@/lib/utils";
 import { headers } from "next/headers";
+import Image from "next/image";
 import Link from "next/link";
 import ThemeToggleButton from "../Buttons/ThemeToggleButton";
 import DesktopNav from "./DesktopNav";
@@ -16,13 +17,16 @@ const Header = async () => {
     <header
       className="fixed top-0 right-0 left-0 z-50 border-b shadow backdrop-blur-2xl"
       aria-label="app-header">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6">
         <Link href={"/"}>
-          <h1
-            className="text-lg font-semibold sm:text-2xl"
-            aria-label="App Name">
-            Wallpaper App
-          </h1>
+          <Image
+            src="/logo.webp"
+            alt="Wallpaper App Logo"
+            width={120}
+            height={40}
+            priority
+            className="h-14 w-auto object-contain"
+          />
         </Link>
 
         {session?.session && (

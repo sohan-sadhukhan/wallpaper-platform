@@ -62,7 +62,7 @@ export const MobileGrid = ({ wallpapers }: MobileGridProps) => {
           <div className="absolute right-0 bottom-0 left-0 flex items-center justify-between p-2">
             <div className="flex items-center gap-1.5">
               <Image
-                src={`${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${w.user.image}`}
+                src={`${w.user.image !== null ? `${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${w.user.image}` : `/avatar.png`}`}
                 alt={w.user.name}
                 width={24}
                 height={24}
@@ -77,7 +77,7 @@ export const MobileGrid = ({ wallpapers }: MobileGridProps) => {
               aria-label="Download"
               className="h-6 w-6 rounded-full">
               <a
-                href={w.imageUrl}
+                href={`/api/download?image=${encodeURIComponent(w.imageUrl)}`}
                 download>
                 <Download size={14} />
               </a>
