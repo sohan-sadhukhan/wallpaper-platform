@@ -42,7 +42,7 @@ const SignInForm = () => {
 
     if (isSuccess) {
       toast.success(message);
-      push("/");
+      push("/profile");
       reset();
     }
   };

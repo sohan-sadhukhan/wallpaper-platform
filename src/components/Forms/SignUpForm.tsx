@@ -43,10 +43,8 @@ const SignUpForm = () => {
 
     if (isSuccess) {
       toast.success(message);
-
       reset();
-
-      replace("/signin");
+      replace("/profile");
     }
   };
   return (
