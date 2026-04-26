@@ -22,8 +22,6 @@ export const WallpaperCard = ({
   wallpapers,
   isFavorited,
 }: WallpaperCardProps & { isFavorited: boolean }) => {
-  const handleLike = () => {};
-
   return (
     <article className="group relative cursor-pointer overflow-hidden rounded-2xl">
       <Image

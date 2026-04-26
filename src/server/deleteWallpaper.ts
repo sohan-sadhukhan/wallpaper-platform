@@ -33,7 +33,7 @@ const deleteWallpaper = async ({
     revalidatePath("/profile");
 
     return { isSuccess: true, message: "Wallpaper deleted successfully" };
-  } catch (error) {
+  } catch {
     return { isSuccess: false, message: "Failed to delete wallpaper" };
   }
 };

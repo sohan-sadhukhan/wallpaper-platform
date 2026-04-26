@@ -13,6 +13,7 @@ import createWallpaperAction from "@/server/createWallpaperAction";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ImageIcon, Loader2Icon, UploadIcon } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -56,6 +57,7 @@ const ORIENTATION_OPTIONS: {
 const CreateWallpaper = () => {
   // Controls upload button loading state
   const [isUploading, setIsUploading] = useState(false);
+  const { push } = useRouter();
 
   // Handles image selection + file validation
   const { openFilePicker, filesContent, plainFiles, clear, errors } =
@@ -91,6 +93,7 @@ const CreateWallpaper = () => {
     toast.success(message);
     reset();
     clear();
+    push("/profile");
   };
 
   return (
