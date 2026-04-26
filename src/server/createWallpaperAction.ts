@@ -1,6 +1,8 @@
 "use server";
 
 import prisma from "@/lib/database/dbClient";
+import { serverEnv } from "@/lib/env/serverEnv";
+import s3Client from "@/lib/s3Client";
 import { nanoid } from "nanoid";
 import sharp from "sharp";
 import authUserServer from "./authUserServer";
@@ -33,10 +35,19 @@ const createWallpaperAction = async ({
     const { width, height } =
       orientation === "portrait" ? PORTRAIT_CONFIG : LANDSCAPE_CONFIG;
 
-    await sharp(imgArrayBuffer)
+    const optimizedImageFile = await sharp(imgArrayBuffer)
       .resize(width, height, { fit: "cover", position: "center" })
       .jpeg({ quality: 88, mozjpeg: true })
-      .toFile(`./public/${imageName}`);
+      .toBuffer();
+    // .toFile(`./public/${imageName}`);
+
+    await s3Client.putObject({
+      Bucket: serverEnv.SPACES_BUCKET_NAME,
+      Key: imageName,
+      Body: optimizedImageFile,
+      ContentType: "image/jpeg",
+      ACL: "public-read",
+    });
 
     await prisma.wallpaper.create({
       data: {

@@ -14,7 +14,7 @@ const UsernameField = ({ username }: UsernameFieldProps) => {
         <FieldLabel htmlFor="username">Username</FieldLabel>
         {/* Link to settings */}
         <Link
-          href="/"
+          href="/settings"
           className="text-xs text-blue-600 transition-colors hover:text-blue-700 hover:underline"
           aria-label="Go to settings to change your username">
           Edit

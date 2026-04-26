@@ -1,5 +1,6 @@
 "use client";
 
+import { clientEnv } from "@/lib/env/clientEnv";
 import updateAvatar from "@/server/updateAvatar";
 import { Camera } from "lucide-react";
 import { useState } from "react";
@@ -10,7 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../shadcnui/avatar";
 import { Button } from "../shadcnui/button";
 
 type ProfileImageFormProp = {
-  currentAvatar: string;
+  currentAvatar: string | null;
   name: string;
 };
 
@@ -30,8 +31,6 @@ const ProfileImageForm = ({ currentAvatar, name }: ProfileImageFormProp) => {
       ],
       onFilesSuccessfullySelected: () => setIsFile(true),
     });
-
-  const avatarSrc = filesContent[0]?.content ?? currentAvatar;
 
   const nameArray = name.split(" ");
 
@@ -69,7 +68,7 @@ const ProfileImageForm = ({ currentAvatar, name }: ProfileImageFormProp) => {
           className="h-40 w-40 shadow-lg ring-2 ring-white dark:ring-zinc-800"
           aria-label="Current profile picture">
           <AvatarImage
-            src={`${avatarSrc}`}
+            src={`${filesContent[0]?.content ? filesContent[0]?.content : `${currentAvatar ? `${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${currentAvatar}` : `/avatar.png`}`}`}
             className="object-cover"
             alt={`${name}'s profile picture`}
           />

@@ -28,7 +28,6 @@ const userSignUp = async ({ name, username, email, password }: SignUp) => {
         displayUsername: username,
         email,
         password,
-        image: "avatar.png",
       },
       headers: await headers(),
     });
@@ -37,15 +36,14 @@ const userSignUp = async ({ name, username, email, password }: SignUp) => {
       where: { id: data.user.id },
       data: {
         bio: "Hey there! I'm new here and excited to explore amazing wallpapers.",
-        interests: {
-          create: [
-            { name: "Nature" },
-            { name: "Minimal" },
-            { name: "Abstract" },
-            { name: "Dark Mode" },
-          ],
-        },
-        coverImage: "cover.jpg",
+        // interests: {
+        //   create: [
+        //     { name: "Nature" },
+        //     { name: "Minimal" },
+        //     { name: "Abstract" },
+        //     { name: "Dark Mode" },
+        //   ],
+        // },
       },
     });
 

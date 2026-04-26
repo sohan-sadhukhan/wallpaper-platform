@@ -1,21 +1,16 @@
 import EditProfileDialog from "@/components/EditProfileDialog";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/shadcnui/card";
+import { Card, CardContent } from "@/components/shadcnui/card";
+import { clientEnv } from "@/lib/env/clientEnv";
 import Image from "next/image";
 
 type ProfileSectionProp = {
   name: string;
   username: string;
   email: string;
-  bio: string;
-  avatar: string;
-  cover: string;
-  interests: string[];
+  bio: string | null;
+  avatar: string | null;
+  cover: string | null;
+  // interests: string[];
 };
 
 const ProfileSection = ({
@@ -25,24 +20,24 @@ const ProfileSection = ({
   bio,
   avatar,
   cover,
-  interests,
+  // interests,
 }: ProfileSectionProp) => {
-  const pinnedWallpapers = [
-    "Forest Morning",
-    "Mountain Valley",
-    "River Bridge",
-    "Emerald Lake",
-  ];
+  // const pinnedWallpapers = [
+  //   "Forest Morning",
+  //   "Mountain Valley",
+  //   "River Bridge",
+  //   "Emerald Lake",
+  // ];
 
   return (
     <section
       aria-label="Profile content"
-      className="grid gap-6 pb-10 lg:grid-cols-[minmax(0,1fr)_280px]">
+      className="grid gap-6 pb-10">
       <article>
         <Card className="overflow-hidden p-0">
           <div className="relative h-36 w-full sm:h-44">
             <Image
-              src={`/${cover}`}
+              src={`${cover ? `${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${cover}` : `/cover.jpg`}`}
               alt="Profile cover image"
               fill
               className="object-cover"
@@ -55,7 +50,7 @@ const ProfileSection = ({
               <div className="flex items-end gap-4">
                 <div className="bg-background ring-background relative size-24 overflow-hidden rounded-full border shadow-md ring-4 sm:size-28">
                   <Image
-                    src={`/${avatar}`}
+                    src={`${avatar ? `${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${avatar}` : `/avatar.png`}`}
                     alt={`${name} avatar`}
                     fill
                     className="object-cover"
@@ -92,7 +87,7 @@ const ProfileSection = ({
                 <p className="text-muted-foreground mt-1 text-sm">{email}</p>
               </div>
 
-              <div>
+              {/* <div>
                 <h3 className="text-sm font-medium">Interests</h3>
                 <ul className="mt-2 flex flex-wrap gap-2">
                   {interests.map((interest) => (
@@ -103,13 +98,13 @@ const ProfileSection = ({
                     </li>
                   ))}
                 </ul>
-              </div>
+              </div> */}
             </section>
           </CardContent>
         </Card>
       </article>
 
-      <aside aria-label="Pinned wallpapers">
+      {/* <aside aria-label="Pinned wallpapers">
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-lg">Pinned</CardTitle>
@@ -133,7 +128,7 @@ const ProfileSection = ({
             ))}
           </CardContent>
         </Card>
-      </aside>
+      </aside> */}
     </section>
   );
 };

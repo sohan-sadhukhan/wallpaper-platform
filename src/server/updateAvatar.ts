@@ -1,10 +1,11 @@
 "use server";
 
 import { auth } from "@/lib/auth";
+import { serverEnv } from "@/lib/env/serverEnv";
+import s3Client from "@/lib/s3Client";
 import { nanoid } from "nanoid";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
-import { rm } from "node:fs/promises";
 import sharp from "sharp";
 import authUserServer from "./authUserServer";
 
@@ -15,22 +16,10 @@ const updateAvatar = async (imgFile: File) => {
       user: { image },
     } = await authUserServer();
 
-    if (!imgFile || !imgFile.type.startsWith("image/")) {
-      return {
-        isSuccess: false,
-        message: "Please select a valid image file.",
-      };
-    }
-
-    // remove old custom avatar file
-    if (image && image !== "avatar.png") {
-      await rm(`./public/${image}`);
-    }
-
     const imgArrayBuffer = await imgFile.arrayBuffer();
     const imageName = `${nanoid()}.jpeg`;
 
-    await sharp(imgArrayBuffer)
+    const optimizedImageFile = await sharp(imgArrayBuffer)
       .resize({
         width: 240,
         height: 240,
@@ -40,7 +29,16 @@ const updateAvatar = async (imgFile: File) => {
         quality: 87,
         mozjpeg: true,
       })
-      .toFile(`./public/${imageName}`);
+      .toBuffer();
+    // .toFile(`./public/${imageName}`);
+
+    await s3Client.putObject({
+      Bucket: serverEnv.SPACES_BUCKET_NAME,
+      Key: imageName,
+      Body: optimizedImageFile,
+      ContentType: "image/jpeg",
+      ACL: "public-read",
+    });
 
     await auth.api.updateUser({
       body: {
@@ -48,6 +46,13 @@ const updateAvatar = async (imgFile: File) => {
       },
       headers: await headers(),
     });
+
+    if (image) {
+      await s3Client.deleteObject({
+        Bucket: serverEnv.SPACES_BUCKET_NAME,
+        Key: image,
+      });
+    }
 
     revalidatePath("/profile");
 

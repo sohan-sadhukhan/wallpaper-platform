@@ -1,6 +1,8 @@
-import { Download, Heart } from "lucide-react";
+import { clientEnv } from "@/lib/env/clientEnv";
+import { Download } from "lucide-react";
 import Image from "next/image";
 import DeleteWallpaper from "./DeleteWallpaper";
+import FavouriteButton from "./FavouriteButton";
 import { Button } from "./shadcnui/button";
 
 type MobileGridProps = {
@@ -9,6 +11,9 @@ type MobileGridProps = {
     imageUrl: string;
     orientation: string;
     userId: string;
+    favorites: {
+      id: string;
+    }[];
     user: {
       name: string;
       id: string;
@@ -33,7 +38,7 @@ export const MobileGrid = ({ wallpapers }: MobileGridProps) => {
           key={w.id}
           className="group relative break-inside-avoid overflow-hidden rounded-xl bg-gray-100">
           <Image
-            src={`/${w.imageUrl}`}
+            src={`${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${w.imageUrl}`}
             width={400}
             height={w.orientation === "landscape" ? 225 : 711}
             alt={`Wallpaper by ${w.user.name}`}
@@ -41,11 +46,10 @@ export const MobileGrid = ({ wallpapers }: MobileGridProps) => {
           />
 
           {/* Heart button */}
-          <button
-            aria-label="Favourite"
-            className="absolute top-2 right-2 flex h-6 w-6 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm">
-            <Heart size={12} />
-          </button>
+          <FavouriteButton
+            id={w.id}
+            isFavorited={w.favorites.length > 0}
+          />
 
           {/* Delete button */}
           <DeleteWallpaper
@@ -58,7 +62,7 @@ export const MobileGrid = ({ wallpapers }: MobileGridProps) => {
           <div className="absolute right-0 bottom-0 left-0 flex items-center justify-between p-2">
             <div className="flex items-center gap-1.5">
               <Image
-                src={`/${w.user.image ?? ""}`}
+                src={`${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${w.user.image}`}
                 alt={w.user.name}
                 width={24}
                 height={24}

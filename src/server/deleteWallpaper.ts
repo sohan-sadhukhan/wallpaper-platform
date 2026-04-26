@@ -1,9 +1,10 @@
 "use server";
 
 import prisma from "@/lib/database/dbClient";
+import { serverEnv } from "@/lib/env/serverEnv";
+import s3Client from "@/lib/s3Client";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { rm } from "node:fs/promises";
 import authUserServer from "./authUserServer";
 
 const deleteWallpaper = async ({
@@ -20,7 +21,11 @@ const deleteWallpaper = async ({
     redirect("/signin");
   }
   try {
-    await rm(`./public/${imageUrl}`);
+    // await rm(`./public/${imageUrl}`);
+    await s3Client.deleteObject({
+      Bucket: serverEnv.SPACES_BUCKET_NAME,
+      Key: imageUrl,
+    });
 
     await prisma.wallpaper.delete({
       where: {

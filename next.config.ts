@@ -9,6 +9,16 @@ const nextConfig: NextConfig = {
       bodySizeLimit: "5mb",
     },
   },
+
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "wallpaper-plat.sgp1.cdn.digitaloceanspaces.com",
+        pathname: "/**",
+      },
+    ],
+  },
 };
 
 export default nextConfig;
