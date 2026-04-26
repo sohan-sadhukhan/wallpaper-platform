@@ -1,9 +1,8 @@
 import PaginationQuery from "@/components/PaginationQuery";
 import WallpaperHome from "@/components/WallpaperHome";
-import { auth } from "@/lib/auth";
 import prisma from "@/lib/database/dbClient";
+import authUserServer from "@/server/authUserServer";
 import { Metadata } from "next";
-import { headers } from "next/headers";
 
 export const metadata: Metadata = {
   title: "Favourite | Wallpaper App",
@@ -19,9 +18,7 @@ type PageProps = {
 const PAGE_SIZE = 6;
 
 const page = async ({ searchParams }: PageProps) => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const session = await authUserServer();
 
   const { page } = await searchParams;
   const pageNumber = Math.max(1, Math.floor(Number(page) || 1));

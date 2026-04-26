@@ -10,7 +10,7 @@ const LANDSCAPE_CONFIG = { width: 1280, height: 720 } as const;
 
 type createWallpaperActionProp = {
   file: File;
-  orientation: string;
+  orientation: "portrait" | "landscape";
 };
 
 //  Server Action
@@ -35,7 +35,7 @@ const createWallpaperAction = async ({
 
     await sharp(imgArrayBuffer)
       .resize(width, height, { fit: "cover", position: "center" })
-      .webp({ quality: 88 })
+      .jpeg({ quality: 88, mozjpeg: true })
       .toFile(`./public/${imageName}`);
 
     await prisma.wallpaper.create({

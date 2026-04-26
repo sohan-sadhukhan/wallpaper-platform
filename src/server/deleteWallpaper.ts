@@ -15,12 +15,11 @@ const deleteWallpaper = async ({
   userId: string;
   imageUrl: string;
 }) => {
+  const { session } = await authUserServer();
+  if (session.userId !== userId) {
+    redirect("/signin");
+  }
   try {
-    const { session } = await authUserServer();
-    if (session.userId !== userId) {
-      redirect("/signin");
-    }
-
     await rm(`./public/${imageUrl}`);
 
     await prisma.wallpaper.delete({

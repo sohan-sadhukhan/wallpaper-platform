@@ -2,12 +2,15 @@
 
 import prisma from "@/lib/database/dbClient";
 import { revalidatePath } from "next/cache";
+import authUserServer from "./authUserServer";
 
-const createFavourite = async (wallpaperId: string, userId: string) => {
+const createFavourite = async (wallpaperId: string) => {
+  const session = await authUserServer();
+
   const existingFavorite = await prisma.favorite.findUnique({
     where: {
       userId_wallpaperId: {
-        userId,
+        userId: session?.user.id,
         wallpaperId,
       },
     },
@@ -17,7 +20,7 @@ const createFavourite = async (wallpaperId: string, userId: string) => {
     await prisma.favorite.delete({
       where: {
         userId_wallpaperId: {
-          userId,
+          userId: session?.user.id,
           wallpaperId,
         },
       },
@@ -32,7 +35,7 @@ const createFavourite = async (wallpaperId: string, userId: string) => {
 
   await prisma.favorite.create({
     data: {
-      userId,
+      userId: session?.user.id,
       wallpaperId,
     },
   });

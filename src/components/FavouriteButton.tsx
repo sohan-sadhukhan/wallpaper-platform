@@ -7,17 +7,16 @@ import { Button } from "./shadcnui/button";
 
 type FavouriteButtonProps = {
   id: string;
-  userId: string;
   isFavorited: boolean;
 };
 
-const FavouriteButton = ({ id, userId, isFavorited }: FavouriteButtonProps) => {
+const FavouriteButton = ({ id, isFavorited }: FavouriteButtonProps) => {
   const [liked, setLiked] = useState(isFavorited);
 
   const handleFavourite = async () => {
     setLiked(!liked);
 
-    const { isFavorited } = await createFavourite(id, userId);
+    const { isFavorited } = await createFavourite(id);
 
     setLiked(isFavorited);
   };
