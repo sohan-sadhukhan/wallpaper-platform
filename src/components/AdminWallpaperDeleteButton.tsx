@@ -1,6 +1,6 @@
 "use client";
 
-import adminDeleteWallpaer from "@/server/adminDeleteWallpaer";
+import adminDeleteWallpaper from "@/server/adminDeleteWallpaper";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { Button } from "./shadcnui/button";
@@ -16,7 +16,7 @@ const PostDeleteButton = ({ wallpaperId }: PostDeleteButtonProps) => {
     setLoading(true);
 
     try {
-      const { success, message } = await adminDeleteWallpaer(wallpaperId);
+      const { success, message } = await adminDeleteWallpaper(wallpaperId);
       if (success) {
         toast.success(message);
       } else {
