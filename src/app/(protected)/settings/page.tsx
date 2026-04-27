@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/shadcnui/card";
+import SignOut from "@/components/SignOut";
 import authUserServer from "@/server/authUserServer";
 import { Metadata } from "next";
 
@@ -74,6 +75,21 @@ const page = async () => {
             <CardContent>
               {/*  Password change form  */}
               <ChangePasswordForm />
+            </CardContent>
+          </Card>
+
+          {/* Logout */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-xl sm:text-2xl">
+                Account Access
+              </CardTitle>
+              <CardDescription>
+                Sign out from your current session.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <SignOut />
             </CardContent>
           </Card>
 
