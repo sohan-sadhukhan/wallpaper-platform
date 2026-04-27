@@ -5,7 +5,12 @@ import PostDeleteButton from "./AdminWallpaperDeleteButton";
 import { Card } from "./shadcnui/card";
 
 type AdminWallpaperRowProp = {
-  wallpaper: Prisma.WallpaperGetPayload<{}>;
+  wallpaper: Prisma.WallpaperGetPayload<{
+    select: {
+      id: true;
+      imageUrl: true;
+    };
+  }>;
 };
 
 const AdminWallpaperRow = ({ wallpaper }: AdminWallpaperRowProp) => {
