@@ -17,7 +17,7 @@ type PageProps = {
   }>;
 };
 
-const PAGE_SIZE = 6;
+const PAGE_SIZE = 10;
 
 const page = async ({ searchParams }: PageProps) => {
   const session = await authUserServer();

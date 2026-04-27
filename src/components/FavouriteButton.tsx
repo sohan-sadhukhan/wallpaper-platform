@@ -23,7 +23,7 @@ const FavouriteButton = ({ id, isFavorited }: FavouriteButtonProps) => {
 
   return (
     <Button
-      size="icon-lg"
+      size="icon"
       aria-label="Favourite"
       className="absolute top-2 right-2 rounded-full"
       onClick={handleFavourite}>

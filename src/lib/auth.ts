@@ -1,8 +1,9 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { nextCookies } from "better-auth/next-js";
-import { username } from "better-auth/plugins";
+import { admin, username } from "better-auth/plugins";
 import { hashPasswordFunction, verifyPasswordFunction } from "./argon2";
+import { customAc, superAdmin, user } from "./authPermissions";
 import prisma from "./database/dbClient";
 
 export const auth = betterAuth({
@@ -19,7 +20,16 @@ export const auth = betterAuth({
       verify: verifyPasswordFunction,
     },
   },
-  plugins: [nextCookies(), username()],
+  plugins: [
+    nextCookies(),
+    username(),
+    admin({
+      ac: customAc,
+      adminRoles: ["ADMIN"],
+      defaultRole: "USER",
+      roles: { ADMIN: superAdmin, USER: user },
+    }),
+  ],
 
   user: {
     changeEmail: {

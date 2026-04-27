@@ -1,8 +1,9 @@
-import { usernameClient } from "better-auth/client/plugins";
+import { adminClient, usernameClient } from "better-auth/client/plugins";
 import { nextCookies } from "better-auth/next-js";
 import { createAuthClient } from "better-auth/react";
+
 export const authClient = createAuthClient({
   /** The base URL of the server (optional if you're using the same domain) */
   baseURL: process.env.BETTER_AUTH_URL,
-  plugins: [usernameClient(), nextCookies()],
+  plugins: [usernameClient(), nextCookies(), adminClient()],
 });

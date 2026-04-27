@@ -48,7 +48,7 @@ export const WallpaperCard = ({
       <div className="absolute right-0 bottom-0 left-0 flex translate-y-1 items-end justify-between p-3 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
         <div className="flex items-center gap-2">
           <Image
-            src={`${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${wallpapers.user.image}`}
+            src={`${wallpapers.user.image !== null ? `${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${wallpapers.user.image}` : `/avatar.png`}`}
             alt={wallpapers.user.name}
             width={32}
             height={32}
@@ -66,7 +66,7 @@ export const WallpaperCard = ({
           onClick={(e) => e.stopPropagation()}
           className={"h-8 w-8 rounded-full"}>
           <a
-            href={wallpapers.imageUrl}
+            href={`/api/download?image=${encodeURIComponent(wallpapers.imageUrl)}`}
             download>
             <Download size={14} />
           </a>

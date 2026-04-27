@@ -44,6 +44,7 @@ const userSignUp = async ({ name, username, email, password }: SignUp) => {
         //     { name: "Dark Mode" },
         //   ],
         // },
+        role: "USER",
       },
     });
 
