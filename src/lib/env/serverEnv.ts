@@ -10,6 +10,12 @@ const serverEnvSchema = z.object({
   SPACES_SECRET: z.string({ error: "SPACES_SECRET Not Found" }),
   SPACES_ENDPOINT: z.string({ error: "SPACES_ENDPOINT Not Found" }),
   SPACES_BUCKET_NAME: z.string({ error: "SPACES_BUCKET_NAME Not Found" }),
+  ADMIN_EMAIL: z.string({
+    error: "ADMIN_EMAIL Key Not Found",
+  }),
+  ADMIN_PASSWORD: z.string({
+    error: "ADMIN_PASSWORD Key Not Found",
+  }),
 });
 
 const serverEnvVars = {
@@ -20,6 +26,8 @@ const serverEnvVars = {
   SPACES_SECRET: process.env.SPACES_SECRET,
   SPACES_ENDPOINT: process.env.SPACES_ENDPOINT,
   SPACES_BUCKET_NAME: process.env.SPACES_BUCKET_NAME,
+  ADMIN_PASSWORD: process.env.ADMIN_PASSWORD,
+  ADMIN_EMAIL: process.env.ADMIN_EMAIL,
 };
 
 export const serverEnv = serverEnvSchema.parse(serverEnvVars);

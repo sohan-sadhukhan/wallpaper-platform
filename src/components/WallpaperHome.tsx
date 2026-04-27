@@ -32,9 +32,6 @@ export default function WallpaperHome({ wallpapers }: WallpaperHomeProps) {
       <div className="md:hidden">
         <MobileGrid wallpapers={wallpapers} />
       </div>
-
-      {/* Spacer for mobile bottom nav */}
-      <div className="h-20 md:hidden" />
     </div>
   );
 }

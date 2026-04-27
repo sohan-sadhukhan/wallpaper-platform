@@ -1,4 +1,5 @@
 import CreateWallpaper from "@/components/Forms/CreateWallpaper";
+import authUserServer from "@/server/authUserServer";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -7,10 +8,11 @@ export const metadata: Metadata = {
 };
 
 const page = async () => {
+  await authUserServer();
   return (
     <section className="mx-auto w-full px-4 py-20 sm:px-6">
       <header className="mb-10 text-center">
-        <h1 className="mb-2 text-4xl font-bold tracking-tight text-white">
+        <h1 className="text-primary mb-2 text-4xl font-bold tracking-tight">
           Upload Wallpaper
         </h1>
         <p className="text-sm text-zinc-500">
