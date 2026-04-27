@@ -59,7 +59,7 @@ const page = async ({ params }: AllWallpaperPageProps) => {
             <Image
               src={
                 user.image ?
-                  `/${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${user.image}`
+                  `${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${user.image}`
                 : "/avatar.png"
               }
               alt={`${user.name ?? "User"}'s avatar`}

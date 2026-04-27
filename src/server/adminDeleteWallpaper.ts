@@ -5,14 +5,13 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import authUserServer from "./authUserServer";
 
-const adminDeleteWallpaer = async (wallpaperId: string) => {
+const adminDeleteWallpaper = async (wallpaperId: string) => {
+  const session = await authUserServer();
+
+  if (session.user.role !== "ADMIN") {
+    redirect("/signin");
+  }
   try {
-    const session = await authUserServer();
-
-    if (session.user.role !== "ADMIN") {
-      redirect("/signin");
-    }
-
     await prisma.wallpaper.delete({
       where: { id: wallpaperId },
     });
@@ -31,4 +30,4 @@ const adminDeleteWallpaer = async (wallpaperId: string) => {
   }
 };
 
-export default adminDeleteWallpaer;
+export default adminDeleteWallpaper;

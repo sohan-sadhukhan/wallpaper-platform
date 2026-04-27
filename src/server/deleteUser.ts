@@ -16,17 +16,12 @@ const BETTER_AUTH_DELETE_USER_ERROR_MESSAGES: Record<string, string> = {
 };
 
 const deleteUser = async (userId: string) => {
+  const session = await authUserServer();
+
+  if (session.user.role !== "ADMIN") {
+    redirect("/signin");
+  }
   try {
-    const session = await authUserServer();
-
-    if (!session) {
-      redirect("/signin");
-    }
-
-    if (session.user.role !== "ADMIN") {
-      redirect("/signin");
-    }
-
     const deletedUser = await auth.api.removeUser({
       body: {
         userId,

@@ -10,7 +10,7 @@ const serverEnvSchema = z.object({
   SPACES_SECRET: z.string({ error: "SPACES_SECRET Not Found" }),
   SPACES_ENDPOINT: z.string({ error: "SPACES_ENDPOINT Not Found" }),
   SPACES_BUCKET_NAME: z.string({ error: "SPACES_BUCKET_NAME Not Found" }),
-  ADMIN_EMAIL: z.string({
+  ADMIN_EMAIL: z.email({
     error: "ADMIN_EMAIL Key Not Found",
   }),
   ADMIN_PASSWORD: z.string({
