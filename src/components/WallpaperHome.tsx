@@ -8,7 +8,7 @@ type WallpaperHomeProps = {
     id: string;
     imageUrl: string;
     orientation: string;
-    userId: string;
+    createdAt: Date;
     favorites: {
       id: string;
     }[];

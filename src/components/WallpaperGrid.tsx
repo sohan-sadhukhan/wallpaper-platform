@@ -6,7 +6,7 @@ type WallpaperGridProps = {
     id: string;
     imageUrl: string;
     orientation: string;
-    userId: string;
+    createdAt: Date;
     favorites: {
       id: string;
     }[];
@@ -32,13 +32,14 @@ export const WallpaperGrid = ({ wallpapers }: WallpaperGridProps) => {
 
   return (
     <div className="columns-2 gap-3 space-y-3 lg:columns-3">
-      {wallpapers.map((w) => (
+      {wallpapers.map((w, index) => (
         <div
           key={w.id}
           className="break-inside-avoid">
           <WallpaperCard
             wallpapers={w}
             isFavorited={w.favorites.length > 0}
+            priority={index < 6}
           />
         </div>
       ))}

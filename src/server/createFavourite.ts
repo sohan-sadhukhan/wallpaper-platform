@@ -27,6 +27,7 @@ const createFavourite = async (wallpaperId: string) => {
     });
 
     revalidatePath("/favourite");
+    revalidatePath("/");
 
     return {
       isFavorited: false,

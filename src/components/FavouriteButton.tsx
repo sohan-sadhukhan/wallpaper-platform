@@ -25,7 +25,7 @@ const FavouriteButton = ({ id, isFavorited }: FavouriteButtonProps) => {
     <Button
       size="icon"
       aria-label="Favourite"
-      className="absolute top-2 right-2 rounded-full"
+      className="rounded-full"
       onClick={handleFavourite}>
       <Heart
         size={12}

@@ -28,7 +28,11 @@ const page = async ({ searchParams }: PageProps) => {
 
   const [allWallpapers, pageCount] = await Promise.all([
     prisma.wallpaper.findMany({
-      include: {
+      select: {
+        id: true,
+        imageUrl: true,
+        createdAt: true,
+        orientation: true,
         user: {
           select: {
             id: true,
@@ -36,6 +40,7 @@ const page = async ({ searchParams }: PageProps) => {
             image: true,
           },
         },
+
         favorites: {
           where:
             session?.user?.id ?
@@ -50,6 +55,7 @@ const page = async ({ searchParams }: PageProps) => {
           },
         },
       },
+
       orderBy: { createdAt: "desc" },
       take: PAGE_SIZE,
       skip: (pageNumber - 1) * PAGE_SIZE,

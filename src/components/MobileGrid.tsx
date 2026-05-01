@@ -10,7 +10,6 @@ type MobileGridProps = {
     id: string;
     imageUrl: string;
     orientation: string;
-    userId: string;
     favorites: {
       id: string;
     }[];
@@ -46,15 +45,16 @@ export const MobileGrid = ({ wallpapers }: MobileGridProps) => {
           />
 
           {/* Heart button */}
-          <FavouriteButton
-            id={w.id}
-            isFavorited={w.favorites.length > 0}
-          />
-
+          <div className="absolute top-2 right-2">
+            <FavouriteButton
+              id={w.id}
+              isFavorited={w.favorites.length > 0}
+            />
+          </div>
           {/* Delete button */}
           <DeleteWallpaper
             id={w.id}
-            userId={w.userId}
+            userId={w.user.id}
             imageUrl={w.imageUrl}
           />
 
