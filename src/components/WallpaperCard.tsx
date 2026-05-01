@@ -62,11 +62,13 @@ export const WallpaperCard = ({
         </div>
 
         {/* Delete button */}
-        <DeleteWallpaper
-          id={wallpapers.id}
-          userId={wallpapers.user.id}
-          imageUrl={wallpapers.imageUrl}
-        />
+        <div className="absolute top-2 left-2">
+          <DeleteWallpaper
+            id={wallpapers.id}
+            userId={wallpapers.user.id}
+            imageUrl={wallpapers.imageUrl}
+          />
+        </div>
       </div>
       {/* Bottom: User info + Download */}
       <div className="absolute right-0 bottom-0 left-0 flex translate-y-1 items-end justify-between p-3 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">

@@ -5,6 +5,7 @@ import { DownloadIcon, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import DeleteWallpaper from "./DeleteWallpaper";
 import FavouriteButton from "./FavouriteButton";
 import { Dialog, DialogContent, DialogTitle } from "./shadcnui/dialog";
 
@@ -90,8 +91,14 @@ const WallpaperCardDialog = ({
             </div>
           </div>
 
-          {/* Favourite + Download */}
+          {/*Delete + Favourite +  Download */}
           <div className="flex items-center gap-2 pe-10">
+            <DeleteWallpaper
+              id={id}
+              userId={user.id}
+              imageUrl={imageUrl}
+            />
+
             <FavouriteButton
               id={id}
               isFavorited={isFavorited}

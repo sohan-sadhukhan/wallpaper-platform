@@ -43,7 +43,7 @@ const DeleteWallpaper = ({
         variant={"destructive"}
         size={"icon-lg"}
         aria-label="Delete"
-        className="absolute top-2 left-2 rounded-full"
+        className="rounded-full"
         onClick={handleDelete}>
         {deletePending ?
           <Loader2
