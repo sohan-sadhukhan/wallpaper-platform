@@ -1,6 +1,7 @@
 import { clientEnv } from "@/lib/env/clientEnv";
 import { Download } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import DeleteWallpaper from "./DeleteWallpaper";
 import FavouriteButton from "./FavouriteButton";
 
@@ -16,6 +17,7 @@ type MobileGridProps = {
       name: string;
       id: string;
       image: string | null;
+      username: string;
     };
   }[];
 };
@@ -36,7 +38,9 @@ export const MobileGrid = ({ wallpapers }: MobileGridProps) => {
           key={w.id}
           className="overflow-hidden rounded-2xl border border-gray-100 bg-white dark:border-white/10 dark:bg-neutral-900">
           {/* Top: user info */}
-          <div className="flex items-center gap-2.5 px-3 py-2.5">
+          <Link
+            href={`/${w.user.username}`}
+            className="flex items-center gap-2.5 px-3 py-2.5">
             <Image
               src={
                 w.user.image ?
@@ -62,7 +66,7 @@ export const MobileGrid = ({ wallpapers }: MobileGridProps) => {
                 imageUrl={w.imageUrl}
               />
             </div>
-          </div>
+          </Link>
 
           {/* Image */}
           <div className="relative w-full">

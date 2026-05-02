@@ -14,6 +14,7 @@ type WallpaperGridProps = {
       name: string;
       id: string;
       image: string | null;
+      username: string;
     };
   }[];
 };
