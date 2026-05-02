@@ -57,16 +57,16 @@ export const MobileGrid = ({ wallpapers }: MobileGridProps) => {
                 {w.user.name}
               </p>
             </div>
-
-            {/* Delete (shown for owner) */}
-            <div className="ml-auto">
-              <DeleteWallpaper
-                id={w.id}
-                userId={w.user.id}
-                imageUrl={w.imageUrl}
-              />
-            </div>
           </Link>
+
+          {/* Delete (shown for owner) */}
+          <div className="ml-auto">
+            <DeleteWallpaper
+              id={w.id}
+              userId={w.user.id}
+              imageUrl={w.imageUrl}
+            />
+          </div>
 
           {/* Image */}
           <div className="relative w-full">
