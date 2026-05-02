@@ -37,30 +37,29 @@ export const MobileGrid = ({ wallpapers }: MobileGridProps) => {
         <article
           key={w.id}
           className="overflow-hidden rounded-2xl border border-gray-100 bg-white dark:border-white/10 dark:bg-neutral-900">
-          {/* Top: user info */}
-          <Link
-            href={`/${w.user.username}`}
-            className="flex items-center gap-2.5 px-3 py-2.5">
-            <Image
-              src={
-                w.user.image ?
-                  `${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${w.user.image}`
-                : `/avatar.png`
-              }
-              alt={w.user.name}
-              width={32}
-              height={32}
-              className="h-8 w-8 rounded-full object-cover"
-            />
-            <div className="min-w-0">
-              <p className="truncate text-[13px] leading-tight font-medium text-gray-900 dark:text-white">
-                {w.user.name}
-              </p>
-            </div>
-          </Link>
-
-          {/* Delete (shown for owner) */}
-          <div className="ml-auto">
+          <div className="flex items-center justify-between px-3 py-2.5">
+            {/* Top: user info */}
+            <Link
+              href={`/${w.user.username}`}
+              className="flex items-center gap-2.5">
+              <Image
+                src={
+                  w.user.image ?
+                    `${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${w.user.image}`
+                  : `/avatar.png`
+                }
+                alt={w.user.name}
+                width={32}
+                height={32}
+                className="h-8 w-8 rounded-full object-cover"
+              />
+              <div className="min-w-0">
+                <p className="truncate text-[13px] leading-tight font-medium text-gray-900 dark:text-white">
+                  {w.user.name}
+                </p>
+              </div>
+            </Link>
+            {/* Delete (shown for owner) */}
             <DeleteWallpaper
               id={w.id}
               userId={w.user.id}
@@ -73,9 +72,9 @@ export const MobileGrid = ({ wallpapers }: MobileGridProps) => {
             <Image
               src={`${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${w.imageUrl}`}
               width={800}
-              height={1067}
+              height={w.orientation === "landscape" ? 450 : 1067}
               alt={`Wallpaper by ${w.user.name}`}
-              className="h-[30dvh] w-full object-contain"
+              className="aspect-[4/3] w-full object-contain"
             />
           </div>
 
