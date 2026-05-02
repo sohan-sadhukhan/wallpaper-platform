@@ -72,7 +72,8 @@ export const MobileGrid = ({ wallpapers }: MobileGridProps) => {
           <div className="relative w-full">
             <Image
               src={`${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${w.imageUrl}`}
-              fill
+              width={800}
+              height={1067}
               alt={`Wallpaper by ${w.user.name}`}
               className="h-[30dvh] w-full object-contain"
             />
