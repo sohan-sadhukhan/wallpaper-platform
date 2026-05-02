@@ -1,6 +1,7 @@
 import { clientEnv } from "@/lib/env/clientEnv";
 import { Download } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import DeleteWallpaper from "./DeleteWallpaper";
 import FavouriteButton from "./FavouriteButton";
@@ -17,6 +18,7 @@ type WallpaperCardProps = {
       id: string;
       name: string;
       image: string | null;
+      username: string;
     };
   };
   priority?: boolean;
@@ -62,15 +64,19 @@ export const WallpaperCard = ({
         </div>
 
         {/* Delete button */}
-        <DeleteWallpaper
-          id={wallpapers.id}
-          userId={wallpapers.user.id}
-          imageUrl={wallpapers.imageUrl}
-        />
+        <div className="absolute top-2 left-2">
+          <DeleteWallpaper
+            id={wallpapers.id}
+            userId={wallpapers.user.id}
+            imageUrl={wallpapers.imageUrl}
+          />
+        </div>
       </div>
       {/* Bottom: User info + Download */}
       <div className="absolute right-0 bottom-0 left-0 flex translate-y-1 items-end justify-between p-3 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-        <div className="flex items-center gap-2">
+        <Link
+          href={`/${wallpapers.user.username}`}
+          className="flex items-center gap-2">
           <Image
             src={`${wallpapers.user.image !== null ? `${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${wallpapers.user.image}` : `/avatar.png`}`}
             alt={wallpapers.user.name}
@@ -83,7 +89,7 @@ export const WallpaperCard = ({
               {wallpapers.user.name}
             </p>
           </div>
-        </div>
+        </Link>
 
         <Button
           aria-label="Download wallpaper"

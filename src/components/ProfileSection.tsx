@@ -1,6 +1,8 @@
 import EditProfileDialog from "@/components/EditProfileDialog";
 import { Card, CardContent } from "@/components/shadcnui/card";
+import { auth } from "@/lib/auth";
 import { clientEnv } from "@/lib/env/clientEnv";
+import { headers } from "next/headers";
 import Image from "next/image";
 
 type ProfileSectionProp = {
@@ -13,7 +15,7 @@ type ProfileSectionProp = {
   // interests: string[];
 };
 
-const ProfileSection = ({
+const ProfileSection = async ({
   name,
   username,
   email,
@@ -28,6 +30,10 @@ const ProfileSection = ({
   //   "River Bridge",
   //   "Emerald Lake",
   // ];
+
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
   return (
     <section
@@ -64,14 +70,15 @@ const ProfileSection = ({
                   <p className="text-muted-foreground text-sm">@{username}</p>
                 </div>
               </div>
-
-              <EditProfileDialog
-                avatarUrl={avatar}
-                coverUrl={cover}
-                bio={bio}
-                name={name}
-                username={username}
-              />
+              {session?.user.username === username && (
+                <EditProfileDialog
+                  avatarUrl={avatar}
+                  coverUrl={cover}
+                  bio={bio}
+                  name={name}
+                  username={username}
+                />
+              )}
             </div>
 
             <section

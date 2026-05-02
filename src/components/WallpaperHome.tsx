@@ -16,6 +16,7 @@ type WallpaperHomeProps = {
       name: string;
       id: string;
       image: string | null;
+      username: string;
     };
   }[];
 };

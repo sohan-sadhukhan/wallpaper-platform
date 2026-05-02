@@ -51,6 +51,7 @@ const page = async ({ searchParams }: PageProps) => {
             id: true,
             name: true,
             image: true,
+            username: true,
           },
         },
         favorites: {

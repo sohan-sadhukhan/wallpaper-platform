@@ -1,9 +1,9 @@
 import { clientEnv } from "@/lib/env/clientEnv";
 import { Download } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import DeleteWallpaper from "./DeleteWallpaper";
 import FavouriteButton from "./FavouriteButton";
-import { Button } from "./shadcnui/button";
 
 type MobileGridProps = {
   wallpapers: {
@@ -17,6 +17,7 @@ type MobileGridProps = {
       name: string;
       id: string;
       image: string | null;
+      username: string;
     };
   }[];
 };
@@ -31,57 +32,68 @@ export const MobileGrid = ({ wallpapers }: MobileGridProps) => {
   }
 
   return (
-    <div className="columns-2 gap-3 space-y-3">
+    <div className="flex flex-col gap-1 gap-8 py-2">
       {wallpapers.map((w) => (
         <article
           key={w.id}
-          className="group relative break-inside-avoid overflow-hidden rounded-xl bg-gray-100">
-          <Image
-            src={`${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${w.imageUrl}`}
-            width={400}
-            height={w.orientation === "landscape" ? 225 : 711}
-            alt={`Wallpaper by ${w.user.name}`}
-            className="w-full object-cover"
-          />
+          className="overflow-hidden rounded-2xl border border-gray-100 bg-white dark:border-white/10 dark:bg-neutral-900">
+          {/* Top: user info */}
+          <Link
+            href={`/${w.user.username}`}
+            className="flex items-center gap-2.5 px-3 py-2.5">
+            <Image
+              src={
+                w.user.image ?
+                  `${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${w.user.image}`
+                : `/avatar.png`
+              }
+              alt={w.user.name}
+              width={32}
+              height={32}
+              className="h-8 w-8 rounded-full object-cover"
+            />
+            <div className="min-w-0">
+              <p className="truncate text-[13px] leading-tight font-medium text-gray-900 dark:text-white">
+                {w.user.name}
+              </p>
+            </div>
+          </Link>
 
-          {/* Heart button */}
-          <div className="absolute top-2 right-2">
+          {/* Delete (shown for owner) */}
+          <div className="ml-auto">
+            <DeleteWallpaper
+              id={w.id}
+              userId={w.user.id}
+              imageUrl={w.imageUrl}
+            />
+          </div>
+
+          {/* Image */}
+          <div className="relative w-full">
+            <Image
+              src={`${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${w.imageUrl}`}
+              width={800}
+              height={w.orientation === "landscape" ? 450 : 1067}
+              alt={`Wallpaper by ${w.user.name}`}
+              className="h-[30dvh] w-full object-contain"
+            />
+          </div>
+
+          <div className="flex items-center justify-between px-3 py-2">
+            {/* Favourite */}
             <FavouriteButton
               id={w.id}
               isFavorited={w.favorites.length > 0}
             />
-          </div>
-          {/* Delete button */}
-          <DeleteWallpaper
-            id={w.id}
-            userId={w.user.id}
-            imageUrl={w.imageUrl}
-          />
 
-          {/* User info + download */}
-          <div className="absolute right-0 bottom-0 left-0 flex items-center justify-between p-2">
-            <div className="flex items-center gap-1.5">
-              <Image
-                src={`${w.user.image !== null ? `${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${w.user.image}` : `/avatar.png`}`}
-                alt={w.user.name}
-                width={24}
-                height={24}
-                className="h-6 w-6 rounded-full border border-white/50 object-cover"
-              />
-              <p className="max-w-[60px] truncate text-[10px] leading-none font-medium text-white">
-                {w.user.name}
-              </p>
-            </div>
-            <Button
-              variant={"ghost"}
-              aria-label="Download"
-              className="h-6 w-6 rounded-full">
-              <a
-                href={`/api/download?image=${encodeURIComponent(w.imageUrl)}`}
-                download>
-                <Download size={14} />
-              </a>
-            </Button>
+            {/* Download */}
+            <a
+              href={`/api/download?image=${encodeURIComponent(w.imageUrl)}`}
+              download
+              className="flex h-6 items-center gap-1.5 rounded-lg bg-gray-900 px-3 text-[12px] font-medium text-white transition-opacity hover:opacity-80 dark:bg-white dark:text-gray-900">
+              <Download size={12} />
+              Download
+            </a>
           </div>
         </article>
       ))}
