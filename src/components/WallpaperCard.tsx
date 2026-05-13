@@ -1,3 +1,6 @@
+"use client";
+
+import { authClient } from "@/lib/auth-client";
 import { clientEnv } from "@/lib/env/clientEnv";
 import { Download } from "lucide-react";
 import Image from "next/image";
@@ -29,6 +32,8 @@ export const WallpaperCard = ({
   isFavorited,
   priority,
 }: WallpaperCardProps & { isFavorited: boolean; priority?: boolean }) => {
+  const session = authClient.useSession();
+
   const [isOpen, setIsOpen] = useState(false);
 
   const openDialog = () => {
@@ -38,9 +43,11 @@ export const WallpaperCard = ({
   const closeDialog = () => {
     setIsOpen(false);
   };
+
   return (
-    <article className="group relative cursor-pointer overflow-hidden rounded-2xl">
+    <article className="group relative">
       <button
+        className="cursor-pointer overflow-hidden rounded-2xl"
         onClick={openDialog}
         role="button"
         tabIndex={0}
@@ -75,7 +82,7 @@ export const WallpaperCard = ({
       {/* Bottom: User info + Download */}
       <div className="absolute right-0 bottom-0 left-0 flex translate-y-1 items-end justify-between p-3 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
         <Link
-          href={`/${wallpapers.user.username}`}
+          href={`/${session.data?.user.username === wallpapers.user.username ? "profile" : `${wallpapers.user.username}`}`}
           className="flex items-center gap-2">
           <Image
             src={`${wallpapers.user.image !== null ? `${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${wallpapers.user.image}` : `/avatar.png`}`}
@@ -96,12 +103,13 @@ export const WallpaperCard = ({
           onClick={(e) => e.stopPropagation()}
           className={"h-8 w-8 rounded-full"}>
           <a
-            href={`/api/download?image=${encodeURIComponent(wallpapers.imageUrl)}`}
-            download>
+            href={`${session.data?.session ? `/api/download?image=${encodeURIComponent(wallpapers.imageUrl)}` : "/signin"}`}
+            download={session.data?.session ? true : false}>
             <Download size={14} />
           </a>
         </Button>
       </div>
+
       <WallpaperCardDialog
         wallpapers={wallpapers}
         isFavorited={isFavorited}

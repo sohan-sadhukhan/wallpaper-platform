@@ -1,4 +1,3 @@
-import Footer from "@/components/Footer";
 import ThemeProvider from "@/components/Providers/ThemeProvider";
 import { ReactNode } from "react";
 import "./globals.css";
@@ -18,7 +17,6 @@ const RootLayout = ({ children }: RootLayoutProps) => {
           defaultTheme="dark"
           enableSystem={false}>
           {children}
-          <Footer />
         </ThemeProvider>
       </body>
     </html>

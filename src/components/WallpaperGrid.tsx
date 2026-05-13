@@ -32,7 +32,7 @@ export const WallpaperGrid = ({ wallpapers }: WallpaperGridProps) => {
   }
 
   return (
-    <div className="columns-2 gap-3 space-y-3 lg:columns-3">
+    <div className="columns-2 space-y-3 lg:columns-3">
       {wallpapers.map((w, index) => (
         <div
           key={w.id}

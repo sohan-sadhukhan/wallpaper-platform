@@ -1,10 +1,13 @@
 import { serverEnv } from "@/lib/env/serverEnv";
 import s3Client from "@/lib/s3Client";
+import authUserServer from "@/server/authUserServer";
 import { GetObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
+  await authUserServer();
+
   const { searchParams } = new URL(request.url);
   const image = searchParams.get("image");
 

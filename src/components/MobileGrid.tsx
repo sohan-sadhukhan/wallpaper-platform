@@ -1,3 +1,4 @@
+import { authClient } from "@/lib/auth-client";
 import { clientEnv } from "@/lib/env/clientEnv";
 import { Download } from "lucide-react";
 import Image from "next/image";
@@ -23,6 +24,8 @@ type MobileGridProps = {
 };
 
 export const MobileGrid = ({ wallpapers }: MobileGridProps) => {
+  const session = authClient.useSession();
+
   if (wallpapers.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-24 text-gray-400">
@@ -87,8 +90,8 @@ export const MobileGrid = ({ wallpapers }: MobileGridProps) => {
 
             {/* Download */}
             <a
-              href={`/api/download?image=${encodeURIComponent(w.imageUrl)}`}
-              download
+              href={`${session.data?.session ? `/api/download?image=${encodeURIComponent(w.imageUrl)}` : "/signin"}`}
+              download={session.data?.session ? true : false}
               className="flex h-6 items-center gap-1.5 rounded-lg bg-gray-900 px-3 text-[12px] font-medium text-white transition-opacity hover:opacity-80 dark:bg-white dark:text-gray-900">
               <Download size={12} />
               Download

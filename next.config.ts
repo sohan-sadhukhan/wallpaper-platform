@@ -14,7 +14,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "wallpaper-plat.sgp1.cdn.digitaloceanspaces.com",
+        hostname: "wallpaper-platf.sgp1.cdn.digitaloceanspaces.com",
         pathname: "/**",
       },
     ],
