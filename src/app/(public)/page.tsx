@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     siteName: "Wallpaper App",
     images: [
       {
-        url: "/opengraph-image.png",
+        url: "https://wallpapers.sohansadhukhan.dev/opengraph-image.png",
         width: 1200,
         height: 630,
         alt: "Wallpaper App Preview",
