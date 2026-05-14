@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { NAV_LINKS } from "../../lib/nav";
+import { NavItem } from "./NavItem";
 
 const DesktopNav = () => {
   const pathname = usePathname();
@@ -18,10 +19,12 @@ const DesktopNav = () => {
           href={href}
           className={cn(
             "hover:text-primary rounded-md px-3 py-2 text-sm font-medium transition-colors",
-            pathname === href &&
-              "text-foreground font-semibold underline underline-offset-4",
+            pathname === href && "text-foreground font-semibold",
           )}>
-          {label}
+          <NavItem
+            label={label}
+            active={pathname === href}
+          />
         </Link>
       ))}
     </nav>

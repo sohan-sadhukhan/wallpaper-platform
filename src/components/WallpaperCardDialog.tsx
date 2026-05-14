@@ -134,7 +134,7 @@ const WallpaperCardDialog = ({
 
           {/* Date */}
           <p className="text-muted-foreground text-xs">
-            Published on {createdAt.toLocaleDateString()}
+            {/* Published on {createdAt.toLocaleDateString()} */}
           </p>
 
           {/* Tags */}
