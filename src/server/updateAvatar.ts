@@ -4,7 +4,7 @@ import { auth } from "@/lib/auth";
 import { serverEnv } from "@/lib/env/serverEnv";
 import s3Client from "@/lib/s3Client";
 import { nanoid } from "nanoid";
-import { revalidatePath } from "next/cache";
+import { updateTag } from "next/cache";
 import { headers } from "next/headers";
 import sharp from "sharp";
 import authUserServer from "./authUserServer";
@@ -13,7 +13,7 @@ import authUserServer from "./authUserServer";
 const updateAvatar = async (imgFile: File) => {
   try {
     const {
-      user: { image },
+      user: { image, username },
     } = await authUserServer();
 
     const imgArrayBuffer = await imgFile.arrayBuffer();
@@ -54,7 +54,7 @@ const updateAvatar = async (imgFile: File) => {
       });
     }
 
-    revalidatePath("/profile");
+    updateTag(`user-${username}`);
 
     return {
       isSuccess: true,

@@ -3,7 +3,7 @@
 import { auth } from "@/lib/auth";
 import { UsernameEmailType } from "@/lib/types";
 import { isAPIError } from "better-auth/api";
-import { revalidatePath } from "next/cache";
+import { updateTag } from "next/cache";
 import { headers } from "next/headers";
 import authUserServer from "./authUserServer";
 
@@ -44,7 +44,7 @@ const updateUsernameEmail = async ({ username, email }: UsernameEmailType) => {
       });
     }
 
-    revalidatePath("/profile");
+    updateTag(`user-${session.user.username}`);
 
     // Return a contextual success message based on what was updated
     if (username !== session.user.username && email !== session.user.email) {

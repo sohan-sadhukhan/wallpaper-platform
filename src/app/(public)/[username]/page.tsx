@@ -1,17 +1,54 @@
 import PaginationQuery from "@/components/PaginationQuery";
-import ProfileSection from "@/components/ProfileSection";
-import WallpaperHome from "@/components/WallpaperHome";
-import { auth } from "@/lib/auth";
-import prisma from "@/lib/database/dbClient";
-import { Metadata } from "next";
-import { headers } from "next/headers";
-import { notFound } from "next/navigation";
+import PublicProfile from "@/components/PublicProfile";
+import PublicProfileWallpapers from "@/components/PublicProfileWallpapers";
+import { ProfileSection } from "@/components/Skeletons/ProfileSectionSkeleton";
+import WallpaperLoadingSkeleton from "@/components/Skeletons/WallpaperLoadingSkeleton";
+import {
+  CachedPublicProfileInfo,
+  CachedPublicProfileWallpapersCount,
+} from "@/lib/data";
+import { clientEnv } from "@/lib/env/clientEnv";
+import { Suspense } from "react";
 
-export const metadata: Metadata = {
-  title: "User Wallpapers | Wallpaper App",
-  description:
-    "Explore wallpapers uploaded by a user. Browse high quality HD and 4K wallpapers.",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ username: string }>;
+}) {
+  const { username } = await params;
+  const userInfo = await CachedPublicProfileInfo(username);
+  if (!userInfo) {
+    return {
+      title: "User Not Found | Wallpaper App",
+      description: "The requested user profile could not be found.",
+    };
+  }
+
+  return {
+    title: `${userInfo.name} (@${userInfo.username}) | Wallpaper App`,
+    description:
+      userInfo.bio ||
+      `Browse wallpapers uploaded by ${userInfo.name} on Wallpaper App.`,
+    images:
+      userInfo.image ?
+        [
+          {
+            url: `${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${userInfo.image}`,
+            width: 1200,
+            height: 630,
+            alt: `${userInfo.name} avatar image`,
+          },
+        ]
+      : [
+          {
+            url: "https://wallpapers.sohansadhukhan.dev/opengraph-image.png",
+            width: 1200,
+            height: 630,
+            alt: `${userInfo.name} avatar image`,
+          },
+        ],
+  };
+}
 
 type PageProps = {
   params: Promise<{ username: string }>;
@@ -25,89 +62,27 @@ const page = async ({ params, searchParams }: PageProps) => {
   // Extract username from route parameters
   const { username } = await params;
 
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
   // Get current page from query
   const { page } = await searchParams;
   const pageNumber = Math.max(1, Math.floor(Number(page) || 1));
-
-  const [allWallpapers, userInfo, pageCount] = await Promise.all([
-    prisma.wallpaper.findMany({
-      where: { user: { username: username } },
-      select: {
-        id: true,
-        imageUrl: true,
-        createdAt: true,
-        orientation: true,
-        user: {
-          select: {
-            id: true,
-            name: true,
-            image: true,
-            username: true,
-          },
-        },
-        // Check if current logged-in user has favorited this wallpaper
-        favorites: {
-          where:
-            session?.user?.id ?
-              {
-                userId: session.user.id,
-              }
-            : {
-                userId: "__no_user__",
-              },
-          select: {
-            id: true,
-          },
-        },
-      },
-      orderBy: { createdAt: "desc" },
-      take: PAGE_SIZE,
-      skip: (pageNumber - 1) * PAGE_SIZE,
-    }),
-    prisma.user.findFirst({
-      where: { username: username },
-      select: {
-        id: true,
-        name: true,
-        image: true,
-        username: true,
-        bio: true,
-        coverImage: true,
-        email: true,
-      },
-    }),
-    prisma.wallpaper.count({
-      where: { user: { username: username } },
-    }),
-  ]);
-
+  const pageCount = await CachedPublicProfileWallpapersCount(username);
   const totalPage = Math.ceil(pageCount / PAGE_SIZE);
-
-  // If user does not exist → show 404 page
-  if (!userInfo) {
-    notFound();
-  }
 
   return (
     <>
       <section className="mx-auto w-full px-4 py-20 sm:px-6">
         {/* User Profile Section */}
-        <ProfileSection
-          name={userInfo.name}
-          username={userInfo.username}
-          email={userInfo.email}
-          bio={userInfo.bio ?? ""}
-          avatar={userInfo.image ?? null}
-          cover={userInfo.coverImage ?? null}
-          // interests={interestNames}
-        />
+        <Suspense fallback={<ProfileSection />}>
+          <PublicProfile username={username} />
+        </Suspense>
 
         {/* Wallpapers Grid */}
-        <WallpaperHome wallpapers={allWallpapers} />
+        <Suspense fallback={<WallpaperLoadingSkeleton />}>
+          <PublicProfileWallpapers
+            username={username}
+            pageNumber={pageNumber}
+          />
+        </Suspense>
       </section>
 
       {/* Pagination */}

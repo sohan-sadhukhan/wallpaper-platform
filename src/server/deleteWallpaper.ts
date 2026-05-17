@@ -3,7 +3,7 @@
 import prisma from "@/lib/database/dbClient";
 import { serverEnv } from "@/lib/env/serverEnv";
 import s3Client from "@/lib/s3Client";
-import { revalidatePath } from "next/cache";
+import { updateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import authUserServer from "./authUserServer";
 
@@ -16,8 +16,8 @@ const deleteWallpaper = async ({
   userId: string;
   imageUrl: string;
 }) => {
-  const { session } = await authUserServer();
-  if (session.userId !== userId) {
+  const session = await authUserServer();
+  if (session.session.userId !== userId) {
     redirect("/signin");
   }
   try {
@@ -34,7 +34,7 @@ const deleteWallpaper = async ({
       },
     });
 
-    revalidatePath("/profile");
+    updateTag(`user-wallpapers-${session.user.username}`);
 
     return { isSuccess: true, message: "Wallpaper deleted successfully" };
   } catch {

@@ -1,5 +1,3 @@
-"use client";
-
 import { MobileGrid } from "./MobileGrid";
 import { WallpaperGrid } from "./WallpaperGrid";
 

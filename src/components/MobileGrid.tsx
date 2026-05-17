@@ -1,3 +1,5 @@
+"use client";
+
 import { authClient } from "@/lib/auth-client";
 import { clientEnv } from "@/lib/env/clientEnv";
 import { Download } from "lucide-react";
