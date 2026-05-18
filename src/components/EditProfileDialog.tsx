@@ -1,6 +1,7 @@
-import { auth } from "@/lib/auth";
+"use client";
+
+import { authClient } from "@/lib/auth-client";
 import { PencilIcon } from "lucide-react";
-import { headers } from "next/headers";
 import BioForm from "./Forms/BioForm";
 import CoverImageForm from "./Forms/CoverImageForm";
 import NameForm from "./Forms/NameForm";
@@ -26,19 +27,18 @@ type EditProfileDialogProps = {
   coverUrl: string | null;
 };
 
-const EditProfileDialog = async ({
+const EditProfileDialog = ({
   avatarUrl,
   bio,
   coverUrl,
   name,
   username,
 }: EditProfileDialogProps) => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const session = authClient.useSession();
+
   return (
     <>
-      {session?.user.username === username && (
+      {session.data?.user.username === username && (
         <Dialog>
           <DialogTrigger
             render={

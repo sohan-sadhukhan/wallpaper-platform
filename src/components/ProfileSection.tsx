@@ -2,8 +2,6 @@ import EditProfileDialog from "@/components/EditProfileDialog";
 import { Card, CardContent } from "@/components/shadcnui/card";
 import { clientEnv } from "@/lib/env/clientEnv";
 import Image from "next/image";
-import { Suspense } from "react";
-import { Bone } from "./Skeletons/ProfileSectionSkeleton";
 
 type ProfileSectionProp = {
   name: string;
@@ -66,20 +64,14 @@ const ProfileSection = async ({
                   <p className="text-muted-foreground text-sm">@{username}</p>
                 </div>
               </div>
-              <Suspense
-                fallback={
-                  <>
-                    <Bone className="hidden h-9 w-28 translate-y-4 self-end rounded-md sm:block" />
-                  </>
-                }>
-                <EditProfileDialog
-                  avatarUrl={avatar}
-                  coverUrl={cover}
-                  bio={bio}
-                  name={name}
-                  username={username}
-                />
-              </Suspense>
+
+              <EditProfileDialog
+                avatarUrl={avatar}
+                coverUrl={cover}
+                bio={bio}
+                name={name}
+                username={username}
+              />
             </div>
 
             <section
