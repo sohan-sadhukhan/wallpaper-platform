@@ -4,6 +4,7 @@ import prisma from "@/lib/database/dbClient";
 import { serverEnv } from "@/lib/env/serverEnv";
 import s3Client from "@/lib/s3Client";
 import { nanoid } from "nanoid";
+import { updateTag } from "next/cache";
 import sharp from "sharp";
 import authUserServer from "./authUserServer";
 
@@ -57,9 +58,10 @@ const createWallpaperAction = async ({
       },
     });
 
+    updateTag(`user-wallpapers-${session.user.username}`);
+
     return { isSuccess: true, message: "Wallpaper uploaded successfully!" };
   } catch (error) {
-    console.error("[createWallpaperAction]", error);
     return {
       isSuccess: false,
       message: "Something went wrong. Please try again.",

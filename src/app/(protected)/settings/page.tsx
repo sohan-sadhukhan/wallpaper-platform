@@ -20,7 +20,6 @@ export const metadata: Metadata = {
 
 const page = async () => {
   const session = await authUserServer();
-
   return (
     <section className="mx-auto w-full px-4 py-20 sm:px-6">
       <section

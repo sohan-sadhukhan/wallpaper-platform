@@ -15,6 +15,8 @@ const BETTER_AUTH_SIGNIN_ERROR_MESSAGES: {
   invalid_credentials: "Invalid email or password.",
   account_not_linked: "This account is not linked. Try another sign-in method.",
   internal_server_error: "Auth server error. Please try again.",
+  banned_user:
+    "You have been banned from this application. Please contact support if you believe this is an error.",
 };
 
 const userSignIn = async ({ email, password, rememberMe }: SignIn) => {

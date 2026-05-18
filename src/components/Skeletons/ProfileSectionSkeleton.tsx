@@ -1,6 +1,6 @@
 import WallpaperLoadingSkeleton from "./WallpaperLoadingSkeleton";
 
-const Bone = ({ className = "" }: { className?: string }) => (
+export const Bone = ({ className = "" }: { className?: string }) => (
   <div
     className={`animate-pulse rounded-lg bg-gray-200 dark:bg-neutral-700 ${className}`}
   />

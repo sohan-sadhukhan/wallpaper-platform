@@ -1,9 +1,9 @@
 import EditProfileDialog from "@/components/EditProfileDialog";
 import { Card, CardContent } from "@/components/shadcnui/card";
-import { auth } from "@/lib/auth";
 import { clientEnv } from "@/lib/env/clientEnv";
-import { headers } from "next/headers";
 import Image from "next/image";
+import { Suspense } from "react";
+import { Bone } from "./Skeletons/ProfileSectionSkeleton";
 
 type ProfileSectionProp = {
   name: string;
@@ -30,10 +30,6 @@ const ProfileSection = async ({
   //   "River Bridge",
   //   "Emerald Lake",
   // ];
-
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
 
   return (
     <section
@@ -70,7 +66,12 @@ const ProfileSection = async ({
                   <p className="text-muted-foreground text-sm">@{username}</p>
                 </div>
               </div>
-              {session?.user.username === username && (
+              <Suspense
+                fallback={
+                  <>
+                    <Bone className="hidden h-9 w-28 translate-y-4 self-end rounded-md sm:block" />
+                  </>
+                }>
                 <EditProfileDialog
                   avatarUrl={avatar}
                   coverUrl={cover}
@@ -78,7 +79,7 @@ const ProfileSection = async ({
                   name={name}
                   username={username}
                 />
-              )}
+              </Suspense>
             </div>
 
             <section

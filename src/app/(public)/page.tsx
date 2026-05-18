@@ -1,13 +1,7 @@
+import HomePageWallpapers from "@/components/HomePageWallpapers";
 import PaginationQuery from "@/components/PaginationQuery";
-import WallpaperHome from "@/components/WallpaperHome";
-import { auth } from "@/lib/auth";
-import {
-  getCachedCount,
-  getCachedWallpapers,
-  getUserFavorites,
-} from "@/lib/data";
+import { getCachedCount } from "@/lib/data";
 import { Metadata } from "next";
-import { headers } from "next/headers";
 
 export const metadata: Metadata = {
   title: "Home | Wallpaper App",
@@ -37,42 +31,18 @@ type PageProps = {
 const PAGE_SIZE = 6;
 
 const page = async ({ searchParams }: PageProps) => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
   const { page } = await searchParams;
   const pageNumber = Math.max(1, Math.floor(Number(page) || 1));
 
-  const [allWallpapers, pageCount] = await Promise.all([
-    getCachedWallpapers(pageNumber),
-    getCachedCount(),
-  ]);
-
-  const favoritedIds =
-    session?.user?.id ?
-      new Set(
-        (
-          await getUserFavorites(
-            session.user.id,
-            allWallpapers.map((w) => w.id),
-          )
-        ).map((f) => f.wallpaperId),
-      )
-    : new Set<string>();
-
-  const wallpapersWithFavorites = allWallpapers.map((w) => ({
-    ...w,
-    favorites: favoritedIds.has(w.id) ? [{ id: w.id }] : [],
-  }));
-
+  const pageCount = await getCachedCount();
   const totalPage = Math.ceil(pageCount / PAGE_SIZE);
 
   return (
     <>
       <section className="mx-auto w-full px-4 py-20 sm:px-6">
-        <WallpaperHome wallpapers={wallpapersWithFavorites} />
+        <HomePageWallpapers pageNumber={pageNumber} />
       </section>
+
       {/* Pagination */}
       <PaginationQuery
         pageNumber={pageNumber}

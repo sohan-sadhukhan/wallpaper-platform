@@ -4,7 +4,7 @@ import prisma from "@/lib/database/dbClient";
 import { serverEnv } from "@/lib/env/serverEnv";
 import s3Client from "@/lib/s3Client";
 import { nanoid } from "nanoid";
-import { revalidatePath } from "next/cache";
+import { updateTag } from "next/cache";
 import sharp from "sharp";
 import authUserServer from "./authUserServer";
 
@@ -61,7 +61,7 @@ const updateCoverImage = async (imgFile: File) => {
       });
     }
 
-    revalidatePath("/profile");
+    updateTag(`user-${session.user.username}`);
 
     return {
       isSuccess: true,
