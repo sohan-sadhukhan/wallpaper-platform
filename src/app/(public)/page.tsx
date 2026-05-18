@@ -42,6 +42,7 @@ const page = async ({ searchParams }: PageProps) => {
       <section className="mx-auto w-full px-4 py-20 sm:px-6">
         <HomePageWallpapers pageNumber={pageNumber} />
       </section>
+
       {/* Pagination */}
       <PaginationQuery
         pageNumber={pageNumber}

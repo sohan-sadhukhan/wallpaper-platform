@@ -5,7 +5,7 @@ import WallpaperHome from "./WallpaperHome";
 
 const HomePageWallpapers = async ({ pageNumber }: { pageNumber: number }) => {
   const [session, allWallpapers] = await Promise.all([
-    await auth.api.getSession({
+    auth.api.getSession({
       headers: await headers(),
     }),
     getCachedWallpapers(pageNumber),

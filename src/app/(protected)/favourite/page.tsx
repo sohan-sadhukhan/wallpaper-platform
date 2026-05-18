@@ -80,10 +80,12 @@ const page = async ({ searchParams }: PageProps) => {
         <WallpaperHome wallpapers={wallpapers} />
       </section>
 
-      <PaginationQuery
-        pageNumber={pageNumber}
-        totalPage={totalPage}
-      />
+      {pageNumber > 1 && (
+        <PaginationQuery
+          pageNumber={pageNumber}
+          totalPage={totalPage}
+        />
+      )}
     </>
   );
 };

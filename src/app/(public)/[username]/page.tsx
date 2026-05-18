@@ -29,24 +29,34 @@ export async function generateMetadata({
     description:
       userInfo.bio ||
       `Browse wallpapers uploaded by ${userInfo.name} on Wallpaper App.`,
-    images:
-      userInfo.image ?
-        [
-          {
-            url: `${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${userInfo.image}`,
-            width: 1200,
-            height: 630,
-            alt: `${userInfo.name} avatar image`,
-          },
-        ]
-      : [
-          {
-            url: "https://wallpapers.sohansadhukhan.dev/opengraph-image.png",
-            width: 1200,
-            height: 630,
-            alt: `${userInfo.name} avatar image`,
-          },
-        ],
+
+    openGraph: {
+      title: `${userInfo.name} (@${userInfo.username})  | Wallpaper App`,
+      description:
+        userInfo.bio ||
+        `Browse wallpapers uploaded by ${userInfo.name} on Wallpaper App.`,
+      url: `https://wallpapers.sohansadhukhan.dev/${username}`,
+      siteName: "Wallpaper App",
+      type: "profile",
+      images:
+        userInfo.image ?
+          [
+            {
+              url: `${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${userInfo.image}`,
+              width: 1200,
+              height: 630,
+              alt: `${userInfo.name} avatar image`,
+            },
+          ]
+        : [
+            {
+              url: "https://wallpapers.sohansadhukhan.dev/opengraph-image.png",
+              width: 1200,
+              height: 630,
+              alt: `${userInfo.name} avatar image`,
+            },
+          ],
+    },
   };
 }
 

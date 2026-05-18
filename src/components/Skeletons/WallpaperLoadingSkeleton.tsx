@@ -1,9 +1,18 @@
-const ORIENTATIONS: ("landscape" | "portrait")[] = [
+const DESKTOPORIENTATIONS: ("landscape" | "portrait")[] = [
   "portrait",
   "portrait",
+  "portrait",
   "landscape",
   "landscape",
   "landscape",
+  "landscape",
+  "landscape",
+  "landscape",
+  "landscape",
+];
+const MOBILEORIENTATIONS: ("landscape" | "portrait")[] = [
+  "portrait",
+  "portrait",
 ];
 
 const Bone = ({ className = "" }: { className?: string }) => (
@@ -33,7 +42,7 @@ function DesktopCardSkeleton({
 function DesktopGridSkeleton() {
   return (
     <div className="columns-2 space-y-3 lg:columns-3">
-      {ORIENTATIONS.map((orientation, i) => (
+      {DESKTOPORIENTATIONS.map((orientation, i) => (
         <DesktopCardSkeleton
           key={i}
           orientation={orientation}
@@ -69,22 +78,8 @@ function MobileCardSkeleton() {
 function MobileGridSkeleton() {
   return (
     <div className="flex flex-col gap-8 py-2">
-      {ORIENTATIONS.map((_, i) => (
+      {MOBILEORIENTATIONS.map((_, i) => (
         <MobileCardSkeleton key={i} />
-      ))}
-    </div>
-  );
-}
-
-// Pagination skeleton
-function PaginationSkeleton() {
-  return (
-    <div className="flex items-center justify-center gap-2 py-8">
-      {Array.from({ length: 4 }).map((_, i) => (
-        <Bone
-          key={i}
-          className="h-9 w-9 rounded-md"
-        />
       ))}
     </div>
   );
@@ -104,8 +99,6 @@ export default function WallpaperLoadingSkeleton() {
           <MobileGridSkeleton />
         </div>
       </section>
-
-      <PaginationSkeleton />
     </>
   );
 }

@@ -1,5 +1,6 @@
 import ChangePasswordForm from "@/components/Forms/ChangePasswordForm";
 import DeleteAccountForm from "@/components/Forms/DeleteAccountForm";
+import UsernameEmailForm from "@/components/Forms/UsernameEmailForm";
 import {
   Card,
   CardContent,
@@ -8,10 +9,8 @@ import {
   CardTitle,
 } from "@/components/shadcnui/card";
 import SignOut from "@/components/SignOut";
-import ProfileInfoSkeleton from "@/components/Skeletons/ProfileInfoSkeleton";
-import UsernameEmailSection from "@/components/UsernameEmailSection";
+import authUserServer from "@/server/authUserServer";
 import { Metadata } from "next";
-import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Settings | Wallpaper App",
@@ -20,6 +19,7 @@ export const metadata: Metadata = {
 };
 
 const page = async () => {
+  const session = await authUserServer();
   return (
     <section className="mx-auto w-full px-4 py-20 sm:px-6">
       <section
@@ -53,9 +53,10 @@ const page = async () => {
             </CardHeader>
             <CardContent>
               {/*  Username & Email update form  */}
-              <Suspense fallback={<ProfileInfoSkeleton />}>
-                <UsernameEmailSection />
-              </Suspense>
+              <UsernameEmailForm
+                username={session.user.username ?? ""}
+                email={session.user.email}
+              />
             </CardContent>
           </Card>
 

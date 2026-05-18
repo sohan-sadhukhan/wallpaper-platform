@@ -18,17 +18,23 @@ const Header = async () => {
       className="fixed top-0 right-0 left-0 z-50 border-b shadow backdrop-blur-2xl"
       aria-label="app-header">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6">
-        <Link href={"/"}>
-          <Image
-            src="/logo.webp"
-            alt="Wallpaper App Logo"
-            width={120}
-            height={40}
-            priority
-            className="h-14 w-auto object-contain"
-          />
-        </Link>
-
+        <div className="flex gap-2">
+          <Link href={"/"}>
+            <Image
+              src="/logo.webp"
+              alt="Wallpaper App Logo"
+              width={120}
+              height={40}
+              priority
+              className="h-14 w-auto object-contain"
+            />
+          </Link>
+          {!session?.session && (
+            <div className="my-auto md:hidden">
+              <ThemeToggleButton />
+            </div>
+          )}
+        </div>
         {session?.session && (
           <div>
             <div className="hidden items-center gap-4 md:flex">
@@ -46,6 +52,12 @@ const Header = async () => {
 
         {!session?.session && (
           <div className="flex items-center gap-2 sm:gap-4">
+            {!session?.session && (
+              <div className="hidden md:flex">
+                <ThemeToggleButton />
+              </div>
+            )}
+
             {/* ── Auth buttons ── */}
             {AUTH_LINKS.map(({ href, label }, index) => (
               <Link
