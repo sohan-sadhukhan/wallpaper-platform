@@ -1,8 +1,8 @@
 import { clientEnv } from "@/lib/env/clientEnv";
 import Image from "next/image";
-import { Prisma } from "../../generated/prisma/browser";
+import { Prisma } from "../../../generated/prisma/browser";
+import { Card } from "../shadcnui/card";
 import PostDeleteButton from "./AdminWallpaperDeleteButton";
-import { Card } from "./shadcnui/card";
 
 type AdminWallpaperRowProp = {
   wallpaper: Prisma.WallpaperGetPayload<{

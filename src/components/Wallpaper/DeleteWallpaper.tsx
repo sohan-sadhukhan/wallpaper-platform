@@ -5,7 +5,7 @@ import { Loader2, Trash2 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { Button } from "./shadcnui/button";
+import { Button } from "../shadcnui/button";
 
 const DeleteWallpaper = ({
   id,

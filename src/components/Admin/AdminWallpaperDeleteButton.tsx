@@ -3,7 +3,7 @@
 import adminDeleteWallpaper from "@/server/adminDeleteWallpaper";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { Button } from "./shadcnui/button";
+import { Button } from "../shadcnui/button";
 
 type PostDeleteButtonProps = {
   wallpaperId: string;

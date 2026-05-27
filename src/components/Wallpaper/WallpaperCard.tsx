@@ -6,9 +6,9 @@ import { Download } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { Button } from "../shadcnui/button";
 import DeleteWallpaper from "./DeleteWallpaper";
 import FavouriteButton from "./FavouriteButton";
-import { Button } from "./shadcnui/button";
 import WallpaperCardDialog from "./WallpaperCardDialog";
 
 type WallpaperCardProps = {

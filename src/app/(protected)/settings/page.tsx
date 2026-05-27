@@ -1,6 +1,7 @@
-import ChangePasswordForm from "@/components/Forms/ChangePasswordForm";
-import DeleteAccountForm from "@/components/Forms/DeleteAccountForm";
-import UsernameEmailForm from "@/components/Forms/UsernameEmailForm";
+import ChangePasswordForm from "@/components/Account/ChangePasswordForm";
+import DeleteAccountForm from "@/components/Account/DeleteAccountForm";
+import SignOut from "@/components/Account/SignOut";
+import UsernameEmailForm from "@/components/Account/UsernameEmailForm";
 import {
   Card,
   CardContent,
@@ -8,7 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/shadcnui/card";
-import SignOut from "@/components/SignOut";
 import authUserServer from "@/server/authUserServer";
 import { Metadata } from "next";
 

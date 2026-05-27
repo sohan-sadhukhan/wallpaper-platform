@@ -1,8 +1,8 @@
 import PaginationQuery from "@/components/PaginationQuery";
-import PublicProfile from "@/components/PublicProfile";
-import PublicProfileWallpapers from "@/components/PublicProfileWallpapers";
+import PublicProfile from "@/components/Profile/PublicProfile";
 import { ProfileSection } from "@/components/Skeletons/ProfileSectionSkeleton";
 import WallpaperLoadingSkeleton from "@/components/Skeletons/WallpaperLoadingSkeleton";
+import PublicProfileWallpapers from "@/components/Wallpaper/PublicProfileWallpapers";
 import {
   CachedPublicProfileInfo,
   CachedPublicProfileWallpapersCount,

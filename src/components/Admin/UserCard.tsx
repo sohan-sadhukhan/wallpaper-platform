@@ -7,8 +7,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { Prisma } from "../../generated/prisma/browser";
-import { Button } from "./shadcnui/button";
+import { Prisma } from "../../../generated/prisma/browser";
+import { Button } from "../shadcnui/button";
 
 type UserCardProps = {
   user: Prisma.UserGetPayload<{

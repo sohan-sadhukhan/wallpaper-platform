@@ -1,4 +1,4 @@
-import { UserCard } from "@/components/UserCard";
+import { UserCard } from "@/components/Admin/UserCard";
 import prisma from "@/lib/database/dbClient";
 import authUserServer from "@/server/authUserServer";
 import { User } from "lucide-react";

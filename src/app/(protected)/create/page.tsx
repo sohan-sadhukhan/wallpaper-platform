@@ -1,4 +1,4 @@
-import CreateWallpaper from "@/components/Forms/CreateWallpaper";
+import CreateWallpaper from "@/components/Wallpaper/CreateWallpaper";
 import authUserServer from "@/server/authUserServer";
 import { Metadata } from "next";
 

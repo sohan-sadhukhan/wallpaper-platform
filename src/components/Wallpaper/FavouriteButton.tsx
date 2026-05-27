@@ -3,7 +3,7 @@
 import createFavourite from "@/server/createFavourite";
 import { Heart } from "lucide-react";
 import { useState } from "react";
-import { Button } from "./shadcnui/button";
+import { Button } from "../shadcnui/button";
 
 type FavouriteButtonProps = {
   id: string;

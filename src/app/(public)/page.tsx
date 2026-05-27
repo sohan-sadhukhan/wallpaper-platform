@@ -1,5 +1,5 @@
-import HomePageWallpapers from "@/components/HomePageWallpapers";
 import PaginationQuery from "@/components/PaginationQuery";
+import HomePageWallpapers from "@/components/Wallpaper/HomePageWallpapers";
 import { getCachedCount } from "@/lib/data";
 import { Metadata } from "next";
 
