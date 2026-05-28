@@ -1,7 +1,6 @@
 "use client";
 
 import { authClient } from "@/lib/auth-client";
-import { clientEnv } from "@/lib/env/clientEnv";
 import { Download } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,7 +8,6 @@ import { useState } from "react";
 import { Button } from "../shadcnui/button";
 import DeleteWallpaper from "./DeleteWallpaper";
 import FavouriteButton from "./FavouriteButton";
-import WallpaperCardDialog from "./WallpaperCardDialog";
 
 type WallpaperCardProps = {
   wallpapers: {
@@ -57,7 +55,7 @@ export const WallpaperCard = ({
           width={600}
           priority={priority}
           height={wallpapers.orientation === "landscape" ? 338 : 1067}
-          src={`${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${wallpapers.imageUrl}`}
+          src={`/${wallpapers.imageUrl}`}
           className="h-auto w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
       </button>
@@ -85,7 +83,7 @@ export const WallpaperCard = ({
           href={`/${session.data?.user.username === wallpapers.user.username ? "profile" : `${wallpapers.user.username}`}`}
           className="flex items-center gap-2">
           <Image
-            src={`${wallpapers.user.image !== null ? `${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${wallpapers.user.image}` : `/avatar.png`}`}
+            src={`${wallpapers.user.image !== null ? `/${wallpapers.user.image}` : `/avatar.png`}`}
             alt={wallpapers.user.name}
             width={32}
             height={32}
@@ -110,12 +108,12 @@ export const WallpaperCard = ({
         </Button>
       </div>
 
-      <WallpaperCardDialog
+      {/* <WallpaperCardDialog
         wallpapers={wallpapers}
         isFavorited={isFavorited}
         open={isOpen}
         onClose={closeDialog}
-      />
+      /> */}
     </article>
   );
 };

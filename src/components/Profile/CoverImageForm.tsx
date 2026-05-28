@@ -1,6 +1,5 @@
 "use client";
 
-import { clientEnv } from "@/lib/env/clientEnv";
 import updateCoverImage from "@/server/updateCoverImage";
 import Image from "next/image";
 import { useState } from "react";
@@ -49,7 +48,7 @@ const CoverImageForm = ({ currentCover }: CoverImageFormProps) => {
         <Image
           height={300}
           width={700}
-          src={`${filesContent[0]?.content ? filesContent[0]?.content : `${currentCover ? `${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${currentCover}` : `/cover.jpg`}`}`}
+          src={`${filesContent[0]?.content ? filesContent[0]?.content : `${currentCover ? `/${currentCover}` : `/cover.jpg`}`}`}
           alt="Cover picture"
           className="h-36 w-full rounded-xl object-cover"
         />

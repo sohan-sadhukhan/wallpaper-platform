@@ -1,6 +1,5 @@
 "use client";
 
-import { clientEnv } from "@/lib/env/clientEnv";
 import banUser from "@/server/banUser";
 import deleteUser from "@/server/deleteUser";
 import Image from "next/image";
@@ -83,11 +82,7 @@ export function UserCard({
         {/* Avatar */}
         <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-full ring-2 ring-white/10 sm:h-12 sm:w-12">
           <Image
-            src={
-              image ?
-                `/${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${image}`
-              : "/avatar.png"
-            }
+            src={image ? `/${image}` : "/avatar.png"}
             alt={`${name ?? "User"}'s avatar`}
             fill
             className="object-cover"

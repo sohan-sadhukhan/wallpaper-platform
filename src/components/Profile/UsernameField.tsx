@@ -1,7 +1,7 @@
 import { LockIcon } from "lucide-react";
 import Link from "next/link";
-import { Field, FieldLabel } from "./shadcnui/field";
-import { Input } from "./shadcnui/input";
+import { Field, FieldLabel } from "../shadcnui/field";
+import { Input } from "../shadcnui/input";
 
 type UsernameFieldProps = {
   username: string;

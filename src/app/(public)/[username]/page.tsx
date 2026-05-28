@@ -7,7 +7,6 @@ import {
   CachedPublicProfileInfo,
   CachedPublicProfileWallpapersCount,
 } from "@/lib/data";
-import { clientEnv } from "@/lib/env/clientEnv";
 import { Suspense } from "react";
 
 export async function generateMetadata({
@@ -42,7 +41,7 @@ export async function generateMetadata({
         userInfo.image ?
           [
             {
-              url: `${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${userInfo.image}`,
+              url: `/${userInfo.image}`,
               width: 1200,
               height: 630,
               alt: `${userInfo.name} avatar image`,

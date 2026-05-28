@@ -1,13 +1,12 @@
 "use client";
 
-import { clientEnv } from "@/lib/env/clientEnv";
 import { DownloadIcon, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { Dialog, DialogContent, DialogTitle } from "../shadcnui/dialog";
 import DeleteWallpaper from "./DeleteWallpaper";
 import FavouriteButton from "./FavouriteButton";
-import { Dialog, DialogContent, DialogTitle } from "./shadcnui/dialog";
 
 type Wallpaper = {
   id: string;
@@ -74,7 +73,7 @@ const WallpaperCardDialog = ({
               href={`/profile`}
               className="shrink-0">
               <Image
-                src={`${user.image !== null ? `${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${user.image}` : `/avatar.png`}`}
+                src={`${user.image !== null ? `/${user.image}` : `/avatar.png`}`}
                 alt={user.name}
                 width={44}
                 height={44}
@@ -126,7 +125,7 @@ const WallpaperCardDialog = ({
               alt={`Wallpaper by ${user.name}`}
               width={800}
               height={isLandscape ? 450 : 1200}
-              src={`${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${imageUrl}`}
+              src={`/${imageUrl}`}
               className={`w-full object-contain transition-transform duration-500 ${isLandscape ? "max-h-[450px]" : "max-h-[60vh]"}`}
               priority
             />

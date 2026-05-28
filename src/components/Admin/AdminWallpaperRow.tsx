@@ -1,4 +1,3 @@
-import { clientEnv } from "@/lib/env/clientEnv";
 import Image from "next/image";
 import { Prisma } from "../../../generated/prisma/browser";
 import { Card } from "../shadcnui/card";
@@ -19,7 +18,7 @@ const AdminWallpaperRow = ({ wallpaper }: AdminWallpaperRowProp) => {
       {/* Thumbnail */}
       <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-white/5 sm:aspect-auto sm:h-16 sm:w-24 lg:h-[4.5rem] lg:w-28">
         <Image
-          src={`${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${wallpaper.imageUrl}`}
+          src={`/${wallpaper.imageUrl}`}
           alt={"wallpaper"}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 96px, 112px"
