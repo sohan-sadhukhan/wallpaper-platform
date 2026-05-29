@@ -4,7 +4,7 @@ import { auth } from "@/lib/auth";
 import { ProfileNameType } from "@/lib/types";
 import { profileNameSchema } from "@/lib/zodSchema";
 import { isAPIError } from "better-auth/api";
-import { updateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import authUserServer from "./authUserServer";
 
@@ -44,7 +44,7 @@ const updateName = async ({ name }: ProfileNameType) => {
       headers: await headers(),
     });
 
-    updateTag(`user-${session.user.username}`);
+    revalidatePath("/settings");
 
     return {
       isSuccess: true,

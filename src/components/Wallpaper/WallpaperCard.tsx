@@ -8,6 +8,7 @@ import { useState } from "react";
 import { Button } from "../shadcnui/button";
 import DeleteWallpaper from "./DeleteWallpaper";
 import FavouriteButton from "./FavouriteButton";
+import WallpaperCardDialog from "./WallpaperCardDialog";
 
 type WallpaperCardProps = {
   wallpapers: {
@@ -108,12 +109,12 @@ export const WallpaperCard = ({
         </Button>
       </div>
 
-      {/* <WallpaperCardDialog
+      <WallpaperCardDialog
         wallpapers={wallpapers}
         isFavorited={isFavorited}
         open={isOpen}
         onClose={closeDialog}
-      /> */}
+      />
     </article>
   );
 };

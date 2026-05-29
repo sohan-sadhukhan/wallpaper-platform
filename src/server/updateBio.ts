@@ -3,7 +3,7 @@
 import prisma from "@/lib/database/dbClient";
 import { ProfileBioType } from "@/lib/types";
 import { profileBioSchema } from "@/lib/zodSchema";
-import { updateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 import authUserServer from "./authUserServer";
 
 const updateBio = async ({ bio }: ProfileBioType) => {
@@ -39,7 +39,7 @@ const updateBio = async ({ bio }: ProfileBioType) => {
       },
     });
 
-    updateTag(`user-${session.user.username}`);
+    revalidatePath("/profile");
 
     return {
       isSuccess: true,

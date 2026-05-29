@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/database/dbClient";
 import { nanoid } from "nanoid";
-import { updateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 import sharp from "sharp";
 import authUserServer from "./authUserServer";
 
@@ -56,7 +56,7 @@ const createWallpaperAction = async ({
       },
     });
 
-    updateTag(`user-wallpapers-${session.user.username}`);
+    revalidatePath("/profile");
 
     return { isSuccess: true, message: "Wallpaper uploaded successfully!" };
   } catch (error) {

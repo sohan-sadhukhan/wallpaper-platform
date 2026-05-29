@@ -1,7 +1,7 @@
 "use client";
 
 import { authClient } from "@/lib/auth-client";
-import { PencilOffIcon } from "lucide-react";
+import { PencilIcon } from "lucide-react";
 import { Button } from "../shadcnui/button";
 import {
   Dialog,
@@ -50,7 +50,7 @@ const EditProfileDialog = ({
               />
             }>
             Edit
-            <PencilOffIcon
+            <PencilIcon
               size={14}
               aria-hidden="true"
             />
