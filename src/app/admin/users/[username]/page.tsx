@@ -1,6 +1,5 @@
-import AdminWallpaperRow from "@/components/AdminWallpaperRow";
+import AdminWallpaperRow from "@/components/Admin/AdminWallpaperRow";
 import prisma from "@/lib/database/dbClient";
-import { clientEnv } from "@/lib/env/clientEnv";
 import authUserServer from "@/server/authUserServer";
 import { ArrowBigLeft, LucideFileSliders } from "lucide-react";
 import Image from "next/image";
@@ -57,11 +56,7 @@ const page = async ({ params }: AllWallpaperPageProps) => {
           {/* Avatar */}
           <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full ring-2 ring-white/10 sm:h-12 sm:w-12">
             <Image
-              src={
-                user.image ?
-                  `${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${user.image}`
-                : "/avatar.png"
-              }
+              src={user.image ? `/${user.image}` : "/avatar.png"}
               alt={`${user.name ?? "User"}'s avatar`}
               fill
               className="object-cover"

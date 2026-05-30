@@ -1,7 +1,6 @@
-import EditProfileDialog from "@/components/EditProfileDialog";
 import { Card, CardContent } from "@/components/shadcnui/card";
-import { clientEnv } from "@/lib/env/clientEnv";
 import Image from "next/image";
+import EditProfileDialog from "./EditProfileDialog";
 
 type ProfileSectionProp = {
   name: string;
@@ -37,7 +36,7 @@ const ProfileSection = async ({
         <Card className="overflow-hidden p-0">
           <div className="relative h-36 w-full sm:h-44">
             <Image
-              src={`${cover ? `${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${cover}` : `/cover.jpg`}`}
+              src={`${cover ? `/${cover}` : `/cover.jpg`}`}
               alt="Profile cover image"
               fill
               className="object-cover"
@@ -50,7 +49,7 @@ const ProfileSection = async ({
               <div className="flex items-end gap-4">
                 <div className="bg-background ring-background relative size-24 overflow-hidden rounded-full border shadow-md ring-4 sm:size-28">
                   <Image
-                    src={`${avatar ? `${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${avatar}` : `/avatar.png`}`}
+                    src={`${avatar ? `/${avatar}` : `/avatar.png`}`}
                     alt={`${name} avatar`}
                     fill
                     className="object-cover"

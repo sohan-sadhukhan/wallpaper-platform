@@ -2,11 +2,7 @@
 
 import { authClient } from "@/lib/auth-client";
 import { PencilIcon } from "lucide-react";
-import BioForm from "./Forms/BioForm";
-import CoverImageForm from "./Forms/CoverImageForm";
-import NameForm from "./Forms/NameForm";
-import ProfileImageForm from "./Forms/ProfileImageForm";
-import { Button } from "./shadcnui/button";
+import { Button } from "../shadcnui/button";
 import {
   Dialog,
   DialogClose,
@@ -15,8 +11,12 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./shadcnui/dialog";
-import { Separator } from "./shadcnui/separator";
+} from "../shadcnui/dialog";
+import { Separator } from "../shadcnui/separator";
+import BioForm from "./BioForm";
+import CoverImageForm from "./CoverImageForm";
+import NameForm from "./NameForm";
+import ProfileImageForm from "./ProfileImageForm";
 import UsernameField from "./UsernameField";
 
 type EditProfileDialogProps = {

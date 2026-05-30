@@ -1,6 +1,6 @@
 import PaginationQuery from "@/components/PaginationQuery";
-import ProfileSection from "@/components/ProfileSection";
-import WallpaperHome from "@/components/WallpaperHome";
+import ProfileSection from "@/components/Profile/ProfileSection";
+import WallpaperHome from "@/components/Wallpaper/WallpaperHome";
 import prisma from "@/lib/database/dbClient";
 import authUserServer from "@/server/authUserServer";
 import { Metadata } from "next";

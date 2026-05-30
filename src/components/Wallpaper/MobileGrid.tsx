@@ -1,7 +1,6 @@
 "use client";
 
 import { authClient } from "@/lib/auth-client";
-import { clientEnv } from "@/lib/env/clientEnv";
 import { Download } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -48,11 +47,7 @@ export const MobileGrid = ({ wallpapers }: MobileGridProps) => {
               href={`/${w.user.username}`}
               className="flex items-center gap-2.5">
               <Image
-                src={
-                  w.user.image ?
-                    `${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${w.user.image}`
-                  : `/avatar.png`
-                }
+                src={w.user.image ? `/${w.user.image}` : `/avatar.png`}
                 alt={w.user.name}
                 width={32}
                 height={32}
@@ -75,7 +70,7 @@ export const MobileGrid = ({ wallpapers }: MobileGridProps) => {
           {/* Image */}
           <div className="relative w-full">
             <Image
-              src={`${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${w.imageUrl}`}
+              src={`/${w.imageUrl}`}
               width={800}
               height={w.orientation === "landscape" ? 450 : 1067}
               alt={`Wallpaper by ${w.user.name}`}

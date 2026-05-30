@@ -1,10 +1,9 @@
 "use server";
 
 import prisma from "@/lib/database/dbClient";
-import { serverEnv } from "@/lib/env/serverEnv";
-import s3Client from "@/lib/s3Client";
-import { updateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { rm } from "node:fs/promises";
 import authUserServer from "./authUserServer";
 
 const deleteWallpaper = async ({
@@ -21,11 +20,11 @@ const deleteWallpaper = async ({
     redirect("/signin");
   }
   try {
-    // await rm(`./public/${imageUrl}`);
-    await s3Client.deleteObject({
-      Bucket: serverEnv.SPACES_BUCKET_NAME,
-      Key: imageUrl,
-    });
+    await rm(`./public/${imageUrl}`);
+    // await s3Client.deleteObject({
+    //   Bucket: serverEnv.SPACES_BUCKET_NAME,
+    //   Key: imageUrl,
+    // });
 
     await prisma.wallpaper.delete({
       where: {
@@ -34,7 +33,7 @@ const deleteWallpaper = async ({
       },
     });
 
-    updateTag(`user-wallpapers-${session.user.username}`);
+    revalidatePath("/profile");
 
     return { isSuccess: true, message: "Wallpaper deleted successfully" };
   } catch {

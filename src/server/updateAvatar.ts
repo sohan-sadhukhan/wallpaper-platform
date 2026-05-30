@@ -1,11 +1,10 @@
 "use server";
 
 import { auth } from "@/lib/auth";
-import { serverEnv } from "@/lib/env/serverEnv";
-import s3Client from "@/lib/s3Client";
 import { nanoid } from "nanoid";
-import { updateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
+import { rm } from "node:fs/promises";
 import sharp from "sharp";
 import authUserServer from "./authUserServer";
 
@@ -29,16 +28,16 @@ const updateAvatar = async (imgFile: File) => {
         quality: 87,
         mozjpeg: true,
       })
-      .toBuffer();
-    // .toFile(`./public/${imageName}`);
+      .toFile(`./public/${imageName}`);
+    // .toBuffer();
 
-    await s3Client.putObject({
-      Bucket: serverEnv.SPACES_BUCKET_NAME,
-      Key: imageName,
-      Body: optimizedImageFile,
-      ContentType: "image/jpeg",
-      ACL: "public-read",
-    });
+    // await s3Client.putObject({
+    //   Bucket: serverEnv.SPACES_BUCKET_NAME,
+    //   Key: imageName,
+    //   Body: optimizedImageFile,
+    //   ContentType: "image/jpeg",
+    //   ACL: "public-read",
+    // });
 
     await auth.api.updateUser({
       body: {
@@ -48,13 +47,14 @@ const updateAvatar = async (imgFile: File) => {
     });
 
     if (image) {
-      await s3Client.deleteObject({
-        Bucket: serverEnv.SPACES_BUCKET_NAME,
-        Key: image,
-      });
+      await rm(`./public/${image}`);
+      // await s3Client.deleteObject({
+      //   Bucket: serverEnv.SPACES_BUCKET_NAME,
+      //   Key: image,
+      // });
     }
 
-    updateTag(`user-${username}`);
+    revalidatePath("/profile");
 
     return {
       isSuccess: true,

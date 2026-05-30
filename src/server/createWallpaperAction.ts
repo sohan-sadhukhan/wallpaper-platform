@@ -1,10 +1,8 @@
 "use server";
 
 import prisma from "@/lib/database/dbClient";
-import { serverEnv } from "@/lib/env/serverEnv";
-import s3Client from "@/lib/s3Client";
 import { nanoid } from "nanoid";
-import { updateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 import sharp from "sharp";
 import authUserServer from "./authUserServer";
 
@@ -36,19 +34,19 @@ const createWallpaperAction = async ({
     const { width, height } =
       orientation === "portrait" ? PORTRAIT_CONFIG : LANDSCAPE_CONFIG;
 
-    const optimizedImageFile = await sharp(imgArrayBuffer)
+    await sharp(imgArrayBuffer)
       .resize(width, height, { fit: "cover", position: "center" })
       .jpeg({ quality: 88, mozjpeg: true })
-      .toBuffer();
-    // .toFile(`./public/${imageName}`);
+      .toFile(`./public/${imageName}`);
+    // .toBuffer();
 
-    await s3Client.putObject({
-      Bucket: serverEnv.SPACES_BUCKET_NAME,
-      Key: imageName,
-      Body: optimizedImageFile,
-      ContentType: "image/jpeg",
-      ACL: "public-read",
-    });
+    // await s3Client.putObject({
+    //   Bucket: serverEnv.SPACES_BUCKET_NAME,
+    //   Key: imageName,
+    //   Body: optimizedImageFile,
+    //   ContentType: "image/jpeg",
+    //   ACL: "public-read",
+    // });
 
     await prisma.wallpaper.create({
       data: {
@@ -58,7 +56,7 @@ const createWallpaperAction = async ({
       },
     });
 
-    updateTag(`user-wallpapers-${session.user.username}`);
+    revalidatePath("/profile");
 
     return { isSuccess: true, message: "Wallpaper uploaded successfully!" };
   } catch (error) {

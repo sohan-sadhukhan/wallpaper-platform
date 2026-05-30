@@ -1,10 +1,9 @@
 "use server";
 
 import prisma from "@/lib/database/dbClient";
-import { serverEnv } from "@/lib/env/serverEnv";
-import s3Client from "@/lib/s3Client";
 import { nanoid } from "nanoid";
-import { updateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
+import { rm } from "node:fs/promises";
 import sharp from "sharp";
 import authUserServer from "./authUserServer";
 
@@ -28,7 +27,7 @@ const updateCoverImage = async (imgFile: File) => {
     const imgArrayBuffer = await imgFile.arrayBuffer();
     const imageName = `${nanoid()}.jpeg`;
 
-    const optimizedImageFile = await sharp(imgArrayBuffer)
+    await sharp(imgArrayBuffer)
       .resize({
         width: 1200,
         height: 320,
@@ -38,16 +37,16 @@ const updateCoverImage = async (imgFile: File) => {
         quality: 87,
         mozjpeg: true,
       })
-      .toBuffer();
-    // .toFile(`./public/${imageName}`);
+      .toFile(`./public/${imageName}`);
+    // .toBuffer();
 
-    await s3Client.putObject({
-      Bucket: serverEnv.SPACES_BUCKET_NAME,
-      Key: imageName,
-      Body: optimizedImageFile,
-      ContentType: "image/jpeg",
-      ACL: "public-read",
-    });
+    // await s3Client.putObject({
+    //   Bucket: serverEnv.SPACES_BUCKET_NAME,
+    //   Key: imageName,
+    //   Body: optimizedImageFile,
+    //   ContentType: "image/jpeg",
+    //   ACL: "public-read",
+    // });
 
     await prisma.user.update({
       where: { id: session.user.id },
@@ -55,13 +54,10 @@ const updateCoverImage = async (imgFile: File) => {
     });
 
     if (currentUser?.coverImage) {
-      await s3Client.deleteObject({
-        Bucket: serverEnv.SPACES_BUCKET_NAME,
-        Key: currentUser?.coverImage,
-      });
+      await rm(`./public/${currentUser?.coverImage}`);
     }
 
-    updateTag(`user-${session.user.username}`);
+    revalidatePath("/profile");
 
     return {
       isSuccess: true,

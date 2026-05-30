@@ -5,7 +5,7 @@ import { Loader2Icon, LogOutIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { Button } from "./shadcnui/button";
+import { Button } from "../shadcnui/button";
 
 const SignOut = () => {
   // State to track loading status during signout
